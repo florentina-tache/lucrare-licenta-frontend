@@ -1,6 +1,8 @@
 const { validationResult } = require('express-validator');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
 const HttpError = require('../models/http-error');
 
@@ -57,6 +59,21 @@ const signup = async (req, res, next) => {
   }
 
   // Return jsonwebtoken
+
+  const payload = {
+    userId: createdUser.id,
+    email: createdUser.email,
+  };
+
+  let token;
+  try {
+    token = jwt.sign(payload, config.get('jwtSecret'), { expiresIn: '1h' });
+  } catch (err) {
+    return next(new HttpError('Signup failed, please try again later.', 500));
+  }
+
+  res.status(201).json({ token });
+
   res.send('User registered');
 };
 
