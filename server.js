@@ -14,8 +14,6 @@ connectDB();
 
 //Middleware
 
-app.use(express.json({ extended: false }));
-
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
@@ -23,9 +21,10 @@ app.use((req, res, next) => {
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
-
   next();
 });
+
+app.use(express.json({ extended: false }));
 
 // Define the Routes
 app.use('/api/users', usersRoutes);
