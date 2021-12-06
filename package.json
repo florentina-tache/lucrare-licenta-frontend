@@ -4,8 +4,7 @@
   "description": "Aplicatie Licenta",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "server": "nodemon server"
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +15,7 @@
     "express-validator": "^6.13.0",
     "gravatar": "^1.8.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.14"
+    "mongoose": "^6.0.14",
+    "nodemon": "^2.0.15"
   }
 }
