@@ -11,19 +11,16 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Input from '../shared/Input';
-import {
-  VALIDATE_EMAIL,
-  VALIDATE_PASSWORD,
-  VALIDATE_REQUIRED,
-  VALIDATE_IDENTICAL,
-} from '../../util/validators';
-import { useForm } from '../../hooks/form-hook';
-import { useDispatch, useSelector } from 'react-redux';
-import * as authActions from '../../actions/authActions';
+import { VALIDATE_REQUIRED } from '../../helpers/utils/validators';
+import { useForm } from '../../helpers/hooks/form-hook';
+// import * as authActions from '../../actions/authActions';
 import { useToasts } from 'react-toast-notifications';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
+  card: {
+    marginTop: theme.spacing(5),
+  },
   paper: {
     marginTop: theme.spacing(3),
     display: 'flex',
@@ -39,75 +36,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = () => {
+const Login = (props) => {
   const classes = useStyles();
-  const history = useHistory();
-
-  const [formState, inputHandler] = useForm(
-    {
-      firstName: {
-        value: '',
-        isValid: false,
-      },
-      lastName: {
-        value: '',
-        isValid: false,
-      },
-      email: {
-        value: '',
-        isValid: false,
-      },
-      password: {
-        value: '',
-        isValid: false,
-      },
-      confirmPassword: {
-        value: '',
-        isValid: false,
-      },
-    },
-    false
-  );
+  // const history = useHistory();
 
   const fields = [
-    {
-      grid: {
-        xs: 12,
-        sm: 6,
-      },
-      textField: {
-        autoComplete: 'fname',
-        name: 'firstName',
-        required: true,
-        fullWidth: true,
-        type: 'text',
-        id: 'firstName',
-        label: 'First Name',
-        autoFocus: true,
-        error: false,
-        errorText: 'Please enter your First Name',
-        validators: [VALIDATE_REQUIRED()],
-      },
-    },
-    {
-      grid: {
-        xs: 12,
-        sm: 6,
-      },
-      textField: {
-        autoComplete: 'lname',
-        name: 'lastName',
-        required: true,
-        fullWidth: true,
-        type: 'text',
-        id: 'lastName',
-        label: 'Last Name',
-        autoFocus: true,
-        error: false,
-        errorText: 'Please enter your Last Name',
-        validators: [VALIDATE_REQUIRED()],
-      },
-    },
     {
       grid: {
         xs: 12,
@@ -123,8 +56,8 @@ const Login = () => {
         fullWidth: true,
         autoFocus: false,
         error: false,
-        errorText: 'Please enter a valid email.',
-        validators: [VALIDATE_REQUIRED(), VALIDATE_EMAIL()],
+        errorText: 'Please enter your email.',
+        validators: [VALIDATE_REQUIRED()],
       },
     },
     {
@@ -142,45 +75,34 @@ const Login = () => {
         fullWidth: true,
         autoFocus: false,
         error: false,
-        errorText:
-          'Your password should be at least 8 characters, contain 1 uppercase, 1 lowercase and 1 symbol',
-        validators: [VALIDATE_REQUIRED(), VALIDATE_PASSWORD()],
-      },
-    },
-    {
-      grid: {
-        xs: 12,
-        sm: 12,
-      },
-      textField: {
-        name: 'password',
-        label: 'Confirm Password',
-        type: 'password',
-        id: 'confirmPassword',
-        autoComplete: 'confirm-password',
-        required: true,
-        fullWidth: true,
-        autoFocus: false,
-        error: false,
-        errorText: 'Passwords do not match.',
-        validators: [
-          VALIDATE_REQUIRED(),
-          VALIDATE_IDENTICAL(formState.inputs.password.value),
-        ],
+        errorText: 'Please enter your password.',
+        validators: [VALIDATE_REQUIRED()],
       },
     },
   ];
 
-  const dispatch = useDispatch();
+  const [formState, inputHandler] = useForm(
+    {
+      email: {
+        value: '',
+        isValid: false,
+      },
+      password: {
+        value: '',
+        isValid: false,
+      },
+    },
+    false
+  );
 
-  const isLoading = useSelector((state) => state.auth.isLoading);
-  const { error } = useSelector((state) => state.auth);
+  const { error, isLoading } = { error: false, isLoading: false };
+
   const { addToast } = useToasts();
 
   useEffect(() => {
     if (error) {
       const clearError = async () => {
-        await dispatch(authActions.clearError());
+        // await dispatch(authActions.clearError());
       };
       addToast(error, {
         appearance: 'error',
@@ -190,21 +112,20 @@ const Login = () => {
     }
   }, [error]);
 
+  // const dispatch = useDispatch();
+
   const submitHandler = async (event) => {
     event.preventDefault();
-
     try {
-      await dispatch(
-        authActions.signup(
-          formState.inputs.firstName.value,
-          formState.inputs.lastName.value,
-          formState.inputs.email.value,
-          formState.inputs.password.value,
-          () => {
-            history.push('/');
-          }
-        )
-      );
+      // await dispatch(
+      //   authActions.login(
+      //     formState.inputs.email.value,
+      //     formState.inputs.password.value,
+      //     () => {
+      //       // history.push('/');
+      //     }
+      //   )
+      // );
     } catch (err) {
       addToast(err, {
         appearance: 'error',
@@ -214,12 +135,12 @@ const Login = () => {
   };
 
   return (
-    <Container component='main' maxWidth='xs' data-test='sign-up-container'>
-      <Card variant='outlined'>
+    <Container component='main' maxWidth='xs'>
+      <Card variant='outlined' className={classes.card}>
         <CardContent>
           <div className={classes.paper}>
             <Typography component='h1' variant='h5'>
-              Sign up
+              Login
             </Typography>
             <form className={classes.form} onSubmit={submitHandler}>
               <Grid container spacing={2}>
@@ -232,7 +153,7 @@ const Login = () => {
                       sm={field.grid.sm}
                     >
                       <Input
-                        data-test='input'
+                        data-test={`${field.textField.id}-input`}
                         variant='outlined'
                         required={field.textField.required}
                         fullWidth={field.textField.fullWidth}
@@ -260,15 +181,19 @@ const Login = () => {
                 disabled={!formState.isValid}
               >
                 {!isLoading ? (
-                  'Sign Up'
+                  'Sign In'
                 ) : (
                   <CircularProgress color='inherit' size='1.5rem' />
                 )}
               </Button>
               <Grid container justify='center'>
                 <Grid item>
-                  <Link href={isLoading ? '#' : '/signin'} variant='body2'>
-                    Already have an account?
+                  <Link
+                    data-test='redirect-link'
+                    href={isLoading ? '#' : '/signup'}
+                    variant='body2'
+                  >
+                    Don't have an account?
                   </Link>
                 </Grid>
               </Grid>

@@ -41,8 +41,7 @@ export const validate = (value, validators) => {
     }
     if (validator.type == 'PASSWORD') {
       isValid =
-        isValid &&
-        /(?=.[a-z])(?=.[A-Z])(?=.[0-9])(?=.[^A-Za-z0-9])(?=.{8,})/.test(value);
+        isValid && /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}/.test(value);
     }
     if (validator.type == 'IDENTICAL') {
       isValid = isValid && value === validator.val;

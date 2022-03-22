@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import {
   Container,
   Typography,
@@ -21,6 +21,7 @@ import { useForm } from '../../helpers/hooks/form-hook';
 // import * as authActions from "../../actions/authActions";
 import { useToasts } from 'react-toast-notifications';
 // import { useHistory } from "react-router-dom";
+import { AppProviderContext } from '../../integration/context/appProviderContext';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 const SignUp = () => {
   const classes = useStyles();
   //   const history = useHistory();
+  const { actions } = useContext(AppProviderContext);
 
   const [formState, inputHandler] = useForm(
     {
@@ -145,7 +147,7 @@ const SignUp = () => {
         autoFocus: false,
         error: false,
         errorText:
-          'Your password should be at least 8 characters, contain 1 uppercase, 1 lowercase and 1 symbol',
+          'Your password should be at least 8 characters, contain 1 uppercase and 1 lowercase.',
         validators: [VALIDATE_REQUIRED(), VALIDATE_PASSWORD()],
       },
     },
@@ -173,42 +175,27 @@ const SignUp = () => {
     },
   ];
 
-  //   const dispatch = useDispatch();
-
-  //   const isLoading = useSelector((state) => state.auth.isLoading);
-  //   const { error } = useSelector((state) => state.auth);
   const isLoading = false;
   const error = false;
   const { addToast } = useToasts();
-
-  useEffect(() => {
-    if (error) {
-      const clearError = async () => {
-        // await dispatch(authActions.clearError());
-      };
-      addToast(error, {
-        appearance: 'error',
-        autoDismiss: true,
-      });
-      clearError();
-    }
-  }, [error]);
 
   const submitHandler = async (event) => {
     event.preventDefault();
 
     try {
-      //   await dispatch(
-      //     authActions.signup(
-      //       formState.inputs.firstName.value,
-      //       formState.inputs.lastName.value,
-      //       formState.inputs.email.value,
-      //       formState.inputs.password.value,
-      //       () => {
-      //         // history.push('/');
-      //       }
-      //     )
-      //   );
+      const signInStatus = await actions.signUp({
+        firstName: formState.inputs.firstName.value,
+        lastName: formState.inputs.lastName.value,
+        email: formState.inputs.email.value,
+        password: formState.inputs.password.value,
+      });
+
+      const { message, success } = signInStatus;
+
+      addToast(message, {
+        appearance: success ? 'success' : 'error',
+        autoDismiss: true,
+      });
     } catch (err) {
       addToast(err, {
         appearance: 'error',

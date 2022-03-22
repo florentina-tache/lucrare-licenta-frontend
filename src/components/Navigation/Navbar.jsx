@@ -37,9 +37,9 @@ const Navbar = (props) => {
   if (!token) {
     buttons = [
       {
-        label: 'Sing In',
-        href: '/signin',
-        test: 'signin-link',
+        label: 'Login',
+        href: '/login',
+        test: 'login-link',
       },
       {
         label: 'Sign Up',
