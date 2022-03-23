@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Toolbar,
   Button,
@@ -8,6 +8,7 @@ import {
   Avatar,
 } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
+import { AppProviderContext } from '../../integration/context/appProviderContext';
 // import * as authActions from "../../actions/authActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +49,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HeaderNav = (props) => {
-  const { token, buttons, email, imageUrl } = props;
+  const { state } = useContext(AppProviderContext);
+  let token = state.token;
+  // console.log('token', token);
+  const { buttons, email, imageUrl } = props;
   const { logo, menuButton, profile, avatarSmall, text, toolbar } = useStyles();
   //   const history = useNavigate();
 

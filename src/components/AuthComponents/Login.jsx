@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import {
   Container,
   Typography,
@@ -16,6 +16,7 @@ import { useForm } from '../../helpers/hooks/form-hook';
 // import * as authActions from '../../actions/authActions';
 import { useToasts } from 'react-toast-notifications';
 // import { useHistory } from 'react-router-dom';
+import { AppProviderContext } from '../../integration/context/appProviderContext';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 const Login = (props) => {
   const classes = useStyles();
   // const history = useHistory();
+  const { actions } = useContext(AppProviderContext);
 
   const fields = [
     {
@@ -117,15 +119,17 @@ const Login = (props) => {
   const submitHandler = async (event) => {
     event.preventDefault();
     try {
-      // await dispatch(
-      //   authActions.login(
-      //     formState.inputs.email.value,
-      //     formState.inputs.password.value,
-      //     () => {
-      //       // history.push('/');
-      //     }
-      //   )
-      // );
+      const loginStatus = await actions.login({
+        email: formState.inputs.email.value,
+        password: formState.inputs.password.value,
+      });
+
+      const { message, success } = loginStatus;
+
+      addToast(message, {
+        appearance: success ? 'success' : 'error',
+        autoDismiss: true,
+      });
     } catch (err) {
       addToast(err, {
         appearance: 'error',

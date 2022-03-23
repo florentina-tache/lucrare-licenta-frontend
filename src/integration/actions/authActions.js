@@ -1,4 +1,5 @@
 import * as actionTypes from './types';
+import { saveTokenInLocalStorage } from '../../helpers/utils/utilFunctions';
 
 export const signUp = async (dispatch, userSignUpDetails) => {
   const { firstName, lastName, email, password } = userSignUpDetails;
@@ -25,7 +26,8 @@ export const signUp = async (dispatch, userSignUpDetails) => {
       type: actionTypes.SIGNUP,
       payload: { userId: responseData.userId, token: responseData.token },
     });
-    return { message: 'Successfully signed in', success: true };
+    saveTokenInLocalStorage(responseData.token, 1000 * 1000);
+    return { message: 'Successfully created account', success: true };
   } catch (err) {}
 };
 
@@ -45,12 +47,14 @@ export const login = async (dispatch, userLoginDetails) => {
 
     const responseData = await response.json();
 
-    return dispatch({
+    if (response.status !== 201) {
+      return { ...responseData, success: false };
+    }
+    dispatch({
       type: actionTypes.LOGIN,
       payload: { userId: responseData.userId, token: responseData.token },
     });
-  } catch (err) {
-    console.log('!!!!!!!!!!!!', err);
-    throw err;
-  }
+    saveTokenInLocalStorage(responseData.token, 10 * 1000);
+    return { message: 'Successfully logged in', success: true };
+  } catch (err) {}
 };

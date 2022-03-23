@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { AppBar, makeStyles } from '@material-ui/core';
 // import jwt_decode from 'jwt-decode';
 import DrawerNav from './DrawerNav';
 import HeaderNav from './HeaderNav';
+import { AppProviderContext } from '../../integration/context/appProviderContext';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -16,13 +17,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = (props) => {
+  let { state } = useContext(AppProviderContext);
+  let token = state.token;
   const { header } = useStyles();
+  console.log(state, token);
 
   const [mobileView, setMobileView] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
 
-  //   let token = useSelector((state) => state.auth.token);
-  let token = '';
   let role, imageUrl, email;
 
   if (token) {
@@ -49,7 +51,7 @@ const Navbar = (props) => {
     ];
   }
 
-  if (token && role === 'User') {
+  if (token) {
     buttons = [
       {
         label: 'Home',
