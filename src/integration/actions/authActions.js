@@ -68,3 +68,7 @@ export const login = async (dispatch, userLoginDetails) => {
     return { message: 'Successfully logged in', success: true };
   } catch (err) {}
 };
+
+export const logout = (dispatch) => {
+  dispatch({ type: actionTypes.LOGOUT, payload: { token: null } });
+};

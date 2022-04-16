@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Toolbar,
   Typography,
@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-// import * as authActions from "../../actions/authActions";
+import { AppProviderContext } from '../../integration/context/appProviderContext';
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -46,23 +46,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DrawerNav = (props) => {
-  //   const history = useNavigate();
+const DrawerNav = ({
+  token,
+  imageUrl,
+  email,
+  buttons,
+  handleDrawerOpen,
+  handleDrawerClose,
+  openDrawer,
+}) => {
+  const navigate = useNavigate();
   const { avatarSmall, drawerProfile, logo, drawerBox, drawerContainer } =
     useStyles();
-  const {
-    token,
-    imageUrl,
-    email,
-    buttons,
-    handleDrawerOpen,
-    handleDrawerClose,
-    openDrawer,
-  } = props;
+  const { actions } = useContext(AppProviderContext);
 
   const logout = () => {
-    // dispatch(authActions.logout());
-    // history.push('/');
+    actions.logout();
+    navigate('/login');
   };
 
   const Applogo = (

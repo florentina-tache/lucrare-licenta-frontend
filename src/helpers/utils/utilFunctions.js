@@ -29,9 +29,9 @@ export const getTokenFromStorage = () => {
   }
   const tokenDetails = JSON.parse(userData);
   const currentDate = new Date();
-  if (currentDate > new Date(tokenDetails.expirationDate)) {
-    return null;
-  }
+  // if (currentDate > new Date(tokenDetails.expirationDate)) {
+  //   return null;
+  // }
 
   return tokenDetails.token;
 };

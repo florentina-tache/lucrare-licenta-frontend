@@ -1,5 +1,5 @@
 import * as actionTypes from './types';
-import { signUp, login } from './authActions';
+import { signUp, login, logout } from './authActions';
 import {
   fetchPlaceById,
   fetchUserPlaces,
@@ -16,5 +16,6 @@ export const appProviderActions = (dispatch) => {
     fetchUserPlaces: (userId) => fetchUserPlaces(dispatch, userId),
     addNewPlace: (newPlaceDetails, userId) =>
       addNewPlace(dispatch, newPlaceDetails, userId),
+    logout: () => logout(dispatch),
   };
 };

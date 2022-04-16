@@ -18,10 +18,9 @@ import {
   VALIDATE_IDENTICAL,
 } from '../../helpers/utils/validators';
 import { useForm } from '../../helpers/hooks/form-hook';
-// import * as authActions from "../../actions/authActions";
 import { useToasts } from 'react-toast-notifications';
-// import { useHistory } from "react-router-dom";
 import { AppProviderContext } from '../../integration/context/appProviderContext';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -44,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = () => {
   const classes = useStyles();
-  //   const history = useHistory();
+  const navigate = useNavigate();
   const { actions } = useContext(AppProviderContext);
 
   const [formState, inputHandler] = useForm(
@@ -196,6 +195,7 @@ const SignUp = () => {
         appearance: success ? 'success' : 'error',
         autoDismiss: true,
       });
+      navigate('/');
     } catch (err) {
       addToast(err, {
         appearance: 'error',

@@ -7,9 +7,8 @@ import {
   Box,
   Avatar,
 } from '@material-ui/core';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { AppProviderContext } from '../../integration/context/appProviderContext';
-// import * as authActions from "../../actions/authActions";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -48,16 +47,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HeaderNav = (props) => {
-  const { state } = useContext(AppProviderContext);
-  let token = state.token;
-  const { buttons, email, imageUrl } = props;
+const HeaderNav = ({ token = null, buttons, email, imageUrl }) => {
+  const { actions } = useContext(AppProviderContext);
   const { logo, menuButton, profile, avatarSmall, text, toolbar } = useStyles();
-  //   const history = useNavigate();
+  let navigate = useNavigate();
 
   const logout = () => {
-    // dispatch(authActions.logout());
-    // history.push('/');
+    actions.logout();
+    navigate('/login');
   };
 
   const Applogo = (
