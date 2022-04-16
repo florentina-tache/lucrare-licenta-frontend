@@ -20,7 +20,6 @@ const Navbar = (props) => {
   let { state } = useContext(AppProviderContext);
   let token = state.token;
   const { header } = useStyles();
-  console.log(state, token);
 
   const [mobileView, setMobileView] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);

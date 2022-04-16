@@ -24,9 +24,16 @@ export const signUp = async (dispatch, userSignUpDetails) => {
 
     dispatch({
       type: actionTypes.SIGNUP,
-      payload: { userId: responseData.userId, token: responseData.token },
+      payload: {
+        userId: responseData.userId,
+        token: responseData.token,
+      },
     });
-    saveTokenInLocalStorage(responseData.token, 1000 * 1000);
+    saveTokenInLocalStorage(
+      responseData.token,
+      1000 * 1000,
+      responseData.userId
+    );
     return { message: 'Successfully created account', success: true };
   } catch (err) {}
 };
@@ -52,9 +59,12 @@ export const login = async (dispatch, userLoginDetails) => {
     }
     dispatch({
       type: actionTypes.LOGIN,
-      payload: { userId: responseData.userId, token: responseData.token },
+      payload: {
+        userId: responseData.userId,
+        token: responseData.token,
+      },
     });
-    saveTokenInLocalStorage(responseData.token, 10 * 1000);
+    saveTokenInLocalStorage(responseData.token, 10 * 1000, responseData.userId);
     return { message: 'Successfully logged in', success: true };
   } catch (err) {}
 };

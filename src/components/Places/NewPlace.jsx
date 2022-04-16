@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Input from '../shared/Input';
@@ -19,6 +19,8 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import { useForm } from '../../helpers/hooks/form-hook';
+import { useToasts } from 'react-toast-notifications';
+import { AppProviderContext } from '../../integration/context/appProviderContext';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -39,8 +41,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NewLocation = () => {
+const NewPlace = () => {
   const classes = useStyles();
+  const { actions } = useContext(AppProviderContext);
+  const { addToast } = useToasts();
 
   const isLoading = false;
 
@@ -117,19 +121,44 @@ const NewLocation = () => {
         autoFocus: false,
         error: false,
         errorText: 'Please enter an address.',
-        validators: [VALIDATE_REQUIRED(), VALIDATE_EMAIL()],
+        validators: [VALIDATE_REQUIRED()],
       },
     },
   ];
 
-  const submitHandler = () => {};
+  const submitHandler = async (event) => {
+    event.preventDefault();
+
+    try {
+      const createdPlaceStatus = await actions.addNewPlace(
+        {
+          title: formState.inputs.title.value,
+          description: formState.inputs.description.value,
+          address: formState.inputs.address.value,
+        },
+        '624981542e9cb39e4265f7be'
+      );
+
+      const { message, success } = createdPlaceStatus;
+
+      addToast(message, {
+        appearance: success ? 'success' : 'error',
+        autoDismiss: true,
+      });
+    } catch (err) {
+      addToast(err, {
+        appearance: 'error',
+        autoDismiss: true,
+      });
+    }
+  };
   return (
     <Container component='main' maxWidth='sm' data-test='sign-up-container'>
       <Card variant='outlined' className={classes.card}>
         <CardContent>
           <div className={classes.paper}>
             <Typography component='h1' variant='h5'>
-              Add a new location
+              Add a new place
             </Typography>
             <form className={classes.form} onSubmit={submitHandler}>
               <Grid container spacing={2}>
@@ -183,4 +212,4 @@ const NewLocation = () => {
   );
 };
 
-export default NewLocation;
+export default NewPlace;

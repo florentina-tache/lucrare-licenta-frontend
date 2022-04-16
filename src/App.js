@@ -4,8 +4,10 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navigation/Navbar';
 import SignUp from './components/AuthComponents/SignUp';
 import Login from './components/AuthComponents/Login';
-import Location from './components/Locations/Location';
-import NewLocation from './components/Locations/NewLocation';
+import Places from './components/Places/Places';
+import NewLocation from './components/Places/NewPlace';
+import UserPlaces from './components/Places/UserPlaces';
+import UsersList from './components/AdminDashboard/UsersList';
 
 import './App.css';
 import AppProvider from './integration/context/appProviderContext';
@@ -17,8 +19,10 @@ const App = () => {
       <Routes>
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/location/new' element={<NewLocation />} />
-        <Route path='/' element={<Location />} />
+        <Route path='/places/new' element={<NewLocation />} />
+        <Route path='/places/myplaces' element={<UserPlaces />} />
+        <Route path='/admin/users' element={<UsersList />} />
+        <Route path='/' element={<Places />} />
       </Routes>
     </Router>
   );

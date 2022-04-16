@@ -4,11 +4,12 @@ export const updateState = (state, newState) => {
   return _.merge(state, newState);
 };
 
-export const saveTokenInLocalStorage = (token, expiresIn) => {
+export const saveTokenInLocalStorage = (token, expiresIn, userId) => {
   localStorage.setItem(
     'userData',
     JSON.stringify({
       token,
+      userId,
       expirationDate: new Date(new Date().getTime() + expiresIn),
     })
   );
@@ -31,7 +32,6 @@ export const getTokenFromStorage = () => {
   if (currentDate > new Date(tokenDetails.expirationDate)) {
     return null;
   }
-  console.log('localstorage', tokenDetails.token);
 
   return tokenDetails.token;
 };

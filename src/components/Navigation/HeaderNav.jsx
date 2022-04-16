@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
 const HeaderNav = (props) => {
   const { state } = useContext(AppProviderContext);
   let token = state.token;
-  // console.log('token', token);
   const { buttons, email, imageUrl } = props;
   const { logo, menuButton, profile, avatarSmall, text, toolbar } = useStyles();
   //   const history = useNavigate();
