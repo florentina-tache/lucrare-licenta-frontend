@@ -1,13 +1,9 @@
 import React, { useEffect, useContext } from 'react';
+import jwt_decode from 'jwt-decode';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Input from '../shared/Input';
-import {
-  VALIDATE_EMAIL,
-  VALIDATE_PASSWORD,
-  VALIDATE_REQUIRED,
-  VALIDATE_IDENTICAL,
-} from '../../helpers/utils/validators';
+import { VALIDATE_REQUIRED } from '../../helpers/utils/validators';
 import {
   Container,
   Typography,
@@ -21,6 +17,7 @@ import {
 import { useForm } from '../../helpers/hooks/form-hook';
 import { useToasts } from 'react-toast-notifications';
 import { AppProviderContext } from '../../integration/context/appProviderContext';
+import ImageUpload from '../shared/ImageUpload';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -45,6 +42,13 @@ const NewPlace = () => {
   const classes = useStyles();
   const { actions } = useContext(AppProviderContext);
   const { addToast } = useToasts();
+  let { state } = useContext(AppProviderContext);
+  let token = state.token;
+  let decodedToken, userId;
+  if (token) {
+    decodedToken = jwt_decode(token);
+    userId = decodedToken.userId;
+  }
 
   const isLoading = false;
 
@@ -59,6 +63,10 @@ const NewPlace = () => {
         isValid: false,
       },
       address: {
+        value: '',
+        isValid: false,
+      },
+      image: {
         value: '',
         isValid: false,
       },
@@ -135,8 +143,9 @@ const NewPlace = () => {
           title: formState.inputs.title.value,
           description: formState.inputs.description.value,
           address: formState.inputs.address.value,
+          image: formState.inputs.image.value,
         },
-        '624981542e9cb39e4265f7be'
+        userId
       );
 
       const { message, success } = createdPlaceStatus;
@@ -189,6 +198,13 @@ const NewPlace = () => {
                   );
                 })}
               </Grid>
+              <ImageUpload
+                id='image'
+                onInput={inputHandler}
+                errorText='Please provide an image.'
+                width={250}
+                height={200}
+              />
               <Button
                 data-test='submit-button'
                 type='submit'

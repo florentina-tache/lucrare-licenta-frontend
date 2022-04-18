@@ -8,23 +8,19 @@ const Places = () => {
   const { actions } = useContext(AppProviderContext);
   const [placeDetails, setPlaceDetails] = useState(null);
 
-  const getPlaceId = async (placeId) => {
+  const getRandomPlace = async () => {
     let place;
     try {
       place = await actions.fetchRandomPlace();
     } catch (err) {}
-    // console.log(place);
     setPlaceDetails(place.place);
-    return place;
   };
 
   useEffect(() => {
-    const place = getPlaceId('624354e2a34189196dbaf09c');
+    getRandomPlace();
   }, []);
 
-  useEffect(() => {
-    // console.log(placeDetails);
-  }, [placeDetails]);
+  useEffect(() => {}, [placeDetails]);
   return (
     <>
       {placeDetails && (

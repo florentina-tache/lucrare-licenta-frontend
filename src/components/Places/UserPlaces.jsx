@@ -6,36 +6,9 @@ import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
+import ImageUpload from '../shared/ImageUpload';
 
 // import itemData from './itemData';
-
-const itemData = [
-  {
-    img: 'https://www.impact.ro/wp-content/uploads/2021/12/New-York.jpg',
-    title: 'Image',
-    author: 'author',
-  },
-  {
-    img: 'https://www.impact.ro/wp-content/uploads/2021/12/New-York.jpg',
-    title: 'Image',
-    author: 'author',
-  },
-  {
-    img: 'https://www.impact.ro/wp-content/uploads/2021/12/New-York.jpg',
-    title: 'Image',
-    author: 'author',
-  },
-  {
-    img: 'https://www.impact.ro/wp-content/uploads/2021/12/New-York.jpg',
-    title: 'Image',
-    author: 'author',
-  },
-  {
-    img: 'https://www.impact.ro/wp-content/uploads/2021/12/New-York.jpg',
-    title: 'Image',
-    author: 'author',
-  },
-];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,15 +27,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserPlaces = () => {
+const UserPlaces = ({ itemData }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <ImageList rowHeight={300} className={classes.imageList}>
-        <ImageListItem key='Subheader' cols={2} style={{ height: 'auto' }}>
-          <ListSubheader component='div'>December</ListSubheader>
-        </ImageListItem>
+        {/* <ImageListItem key='Subheader' cols={2} style={{ height: 'auto' }}>
+          <ImageUpload
+            center
+            id='image'
+            onInput={inputHandler}
+            errorText='Please provide an image.'
+          />
+        </ImageListItem> */}
         {itemData.map((item) => (
           <ImageListItem key={item.img}>
             <img src={item.img} alt={item.title} />

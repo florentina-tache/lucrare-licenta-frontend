@@ -6,7 +6,7 @@ import SignUp from './components/AuthComponents/SignUp';
 import Login from './components/AuthComponents/Login';
 import Places from './components/Places/Places';
 import NewLocation from './components/Places/NewPlace';
-import UserPlaces from './components/Places/UserPlaces';
+import AddedPlaces from './components/Places/AddedPlaces';
 import UsersList from './components/AdminDashboard/UsersList';
 
 import './App.css';
@@ -20,7 +20,8 @@ const App = () => {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
         <Route path='/places/new' element={<NewLocation />} />
-        <Route path='/places/myplaces' element={<UserPlaces />} />
+        <Route path='/places/myplaces' element={<AddedPlaces />} />
+        {/* <Route path='/places/myfavourites' element={<UserPlaces />} /> */}
         <Route path='/admin/users' element={<UsersList />} />
         <Route path='/' element={<Places />} />
       </Routes>

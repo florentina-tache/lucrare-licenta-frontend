@@ -129,7 +129,10 @@ const Login = (props) => {
         appearance: success ? 'success' : 'error',
         autoDismiss: true,
       });
-      navigate('/');
+
+      if (success) {
+        navigate('/');
+      }
     } catch (err) {
       addToast(err, {
         appearance: 'error',

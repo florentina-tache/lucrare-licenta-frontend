@@ -41,7 +41,6 @@ export const fetchUserPlaces = async (dispatch, userId) => {
       type: actionTypes.GET_PLACES_BY_USER_ID,
       payload: { userId: responseData.userId, token: responseData.token },
     });
-    // console.log(responseData);
     return { message: 'Successfully found place', success: true };
   } catch (err) {}
 };
@@ -61,25 +60,22 @@ export const fetchRandomPlace = async (dispatch) => {
       type: actionTypes.GET_PLACES_BY_USER_ID,
       // payload: { userId: responseData.userId, token: responseData.token },
     });
-    console.log(responseData);
     return { place: responseData.place };
   } catch (err) {}
 };
 
 export const addNewPlace = async (dispatch, newPlaceDetails, userId) => {
-  const { title, description, address } = newPlaceDetails;
+  const { title, description, address, image } = newPlaceDetails;
   try {
+    let formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('address', address);
+    formData.append('image', image);
+    formData.append('creator', userId);
     const response = await fetch('http://localhost:5000/api/places', {
       method: 'POST',
-      body: JSON.stringify({
-        title,
-        description,
-        address,
-        creator: userId,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      body: formData,
     });
 
     const responseData = await response.json();
