@@ -1,36 +1,42 @@
 import React, { useState, useEffect, useContext } from 'react';
-import UserPlaces from './UserPlaces';
+import jwt_decode from 'jwt-decode';
+import { AppProviderContext } from '../../integration/context/appProviderContext';
 
-const itemData = [
-  {
-    img: 'https://www.impact.ro/wp-content/uploads/2021/12/New-York.jpg',
-    title: 'Image',
-    author: 'author',
-  },
-  {
-    img: 'https://www.impact.ro/wp-content/uploads/2021/12/New-York.jpg',
-    title: 'Image',
-    author: 'author',
-  },
-  {
-    img: 'https://www.impact.ro/wp-content/uploads/2021/12/New-York.jpg',
-    title: 'Image',
-    author: 'author',
-  },
-  {
-    img: 'https://www.impact.ro/wp-content/uploads/2021/12/New-York.jpg',
-    title: 'Image',
-    author: 'author',
-  },
-  {
-    img: 'https://www.impact.ro/wp-content/uploads/2021/12/New-York.jpg',
-    title: 'Image',
-    author: 'author',
-  },
-];
+import UserPlaces from './UserPlaces';
+import AlertMessage from '../shared/AlertMessage';
 
 const AddedPlaces = () => {
-  return <UserPlaces itemData={itemData} />;
+  const { actions, state } = useContext(AppProviderContext);
+  let token = state.token;
+  let decodedToken, userId;
+  if (token) {
+    decodedToken = jwt_decode(token);
+    userId = decodedToken.userId;
+  }
+
+  const [addedPlaces, setAddedPlaces] = useState(null);
+
+  const getAddedPlaces = async () => {
+    let places;
+    try {
+      places = await actions.fetchUserPlaces(userId);
+    } catch (err) {}
+    setAddedPlaces(places);
+  };
+
+  useEffect(() => {
+    getAddedPlaces();
+  }, []);
+
+  useEffect(() => {
+    console.log(addedPlaces);
+  }, [addedPlaces]);
+
+  return addedPlaces ? (
+    <UserPlaces itemData={addedPlaces.places} />
+  ) : (
+    <AlertMessage text='No places found!' />
+  );
 };
 
 export default AddedPlaces;

@@ -10,7 +10,6 @@ import {
   Card,
   Button,
   Grid,
-  Link,
   CardContent,
   CircularProgress,
 } from '@material-ui/core';
@@ -40,9 +39,8 @@ const useStyles = makeStyles((theme) => ({
 
 const NewPlace = () => {
   const classes = useStyles();
-  const { actions } = useContext(AppProviderContext);
+  const { actions, state } = useContext(AppProviderContext);
   const { addToast } = useToasts();
-  let { state } = useContext(AppProviderContext);
   let token = state.token;
   let decodedToken, userId;
   if (token) {

@@ -7,6 +7,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import ImageUpload from '../shared/ImageUpload';
+import { server } from '../../helpers/utils/constants';
 
 // import itemData from './itemData';
 
@@ -42,8 +43,8 @@ const UserPlaces = ({ itemData }) => {
           />
         </ImageListItem> */}
         {itemData.map((item) => (
-          <ImageListItem key={item.img}>
-            <img src={item.img} alt={item.title} />
+          <ImageListItem key={item.image}>
+            <img src={`${server}${item.image}`} alt={item.title} />
             <ImageListItemBar
               title={item.title}
               subtitle={<span>by: {item.author}</span>}

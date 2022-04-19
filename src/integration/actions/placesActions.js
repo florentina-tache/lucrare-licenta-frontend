@@ -41,7 +41,7 @@ export const fetchUserPlaces = async (dispatch, userId) => {
       type: actionTypes.GET_PLACES_BY_USER_ID,
       payload: { userId: responseData.userId, token: responseData.token },
     });
-    return { message: 'Successfully found place', success: true };
+    return { places: responseData.places };
   } catch (err) {}
 };
 
