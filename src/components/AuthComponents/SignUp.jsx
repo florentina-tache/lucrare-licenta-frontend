@@ -9,6 +9,7 @@ import {
   CardContent,
   CircularProgress,
 } from '@material-ui/core';
+import ImageUpload from '../shared/ImageUpload';
 import { makeStyles } from '@material-ui/core/styles';
 import Input from '../shared/Input';
 import {
@@ -18,10 +19,9 @@ import {
   VALIDATE_IDENTICAL,
 } from '../../helpers/utils/validators';
 import { useForm } from '../../helpers/hooks/form-hook';
-// import * as authActions from "../../actions/authActions";
 import { useToasts } from 'react-toast-notifications';
-// import { useHistory } from "react-router-dom";
 import { AppProviderContext } from '../../integration/context/appProviderContext';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = () => {
   const classes = useStyles();
-  //   const history = useHistory();
+  const navigate = useNavigate();
   const { actions } = useContext(AppProviderContext);
 
   const [formState, inputHandler] = useForm(
@@ -68,6 +68,10 @@ const SignUp = () => {
       confirmPassword: {
         value: '',
         isValid: false,
+      },
+      image: {
+        value: null,
+        isValid: true,
       },
     },
     false
@@ -188,14 +192,27 @@ const SignUp = () => {
         lastName: formState.inputs.lastName.value,
         email: formState.inputs.email.value,
         password: formState.inputs.password.value,
+        image: formState.inputs.image.value,
       });
 
-      const { message, success } = signInStatus;
+      if (signInStatus) {
+        const { message, success } = signInStatus;
 
-      addToast(message, {
-        appearance: success ? 'success' : 'error',
-        autoDismiss: true,
-      });
+        addToast(message, {
+          appearance: success ? 'success' : 'error',
+          autoDismiss: true,
+        });
+
+        if (success) {
+          navigate('/');
+        }
+      } else
+        addToast('Unknown error occured', {
+          appearance: 'error',
+          autoDismiss: true,
+        });
+      {
+      }
     } catch (err) {
       addToast(err, {
         appearance: 'error',
@@ -241,6 +258,13 @@ const SignUp = () => {
                   );
                 })}
               </Grid>
+              <ImageUpload
+                id='image'
+                onInput={inputHandler}
+                errorText='Please provide an image.'
+                width={150}
+                height={100}
+              />
               <Button
                 data-test='submit-button'
                 type='submit'

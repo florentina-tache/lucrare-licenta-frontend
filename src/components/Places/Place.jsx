@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -16,6 +16,8 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
+import { AppProviderContext } from '../../integration/context/appProviderContext';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 800,
@@ -31,13 +33,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Location = ({
+const Place = ({
   title = 'title',
   subheader = 'subheader',
   image = 'https://www.flytap.com/-/media/Flytap/new-tap-pages/destinations/europe/spain/ibiza/destinations-ibiza-og-image-1200x630.png',
   description = 'This impressive paella is a perfect ',
 }) => {
   const classes = useStyles();
+  const { actions } = useContext(AppProviderContext);
+  console.log(title);
 
   return (
     <Card className={classes.root}>
@@ -70,4 +74,4 @@ const Location = ({
   );
 };
 
-export default Location;
+export default Place;

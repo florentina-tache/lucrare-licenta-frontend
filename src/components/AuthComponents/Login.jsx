@@ -17,6 +17,7 @@ import { useForm } from '../../helpers/hooks/form-hook';
 import { useToasts } from 'react-toast-notifications';
 // import { useHistory } from 'react-router-dom';
 import { AppProviderContext } from '../../integration/context/appProviderContext';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = (props) => {
   const classes = useStyles();
-  // const history = useHistory();
+  let navigate = useNavigate();
   const { actions } = useContext(AppProviderContext);
 
   const fields = [
@@ -114,8 +115,6 @@ const Login = (props) => {
     }
   }, [error]);
 
-  // const dispatch = useDispatch();
-
   const submitHandler = async (event) => {
     event.preventDefault();
     try {
@@ -130,6 +129,10 @@ const Login = (props) => {
         appearance: success ? 'success' : 'error',
         autoDismiss: true,
       });
+
+      if (success) {
+        navigate('/');
+      }
     } catch (err) {
       addToast(err, {
         appearance: 'error',

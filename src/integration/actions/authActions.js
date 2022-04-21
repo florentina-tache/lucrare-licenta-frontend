@@ -1,20 +1,29 @@
 import * as actionTypes from './types';
-import { saveTokenInLocalStorage } from '../../helpers/utils/utilFunctions';
+import {
+  saveTokenInLocalStorage,
+  removeTokenFromLocalStorage,
+  autoLogout,
+} from '../../helpers/utils/utilFunctions';
+import { server } from '../../helpers/utils/constants';
+
+export const logout = (dispatch) => {
+  dispatch({ type: actionTypes.LOGOUT, payload: { token: null } });
+  removeTokenFromLocalStorage();
+};
 
 export const signUp = async (dispatch, userSignUpDetails) => {
-  const { firstName, lastName, email, password } = userSignUpDetails;
+  const { firstName, lastName, email, password, image } = userSignUpDetails;
+  console.log(image);
   try {
+    let formData = new FormData();
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('image', image);
     const response = await fetch('http://localhost:5000/api/auth/signup', {
       method: 'POST',
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        password,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      body: formData,
     });
 
     const responseData = await response.json();
@@ -24,9 +33,18 @@ export const signUp = async (dispatch, userSignUpDetails) => {
 
     dispatch({
       type: actionTypes.SIGNUP,
-      payload: { userId: responseData.userId, token: responseData.token },
+      payload: {
+        userId: responseData.userId,
+        token: responseData.token,
+      },
     });
-    saveTokenInLocalStorage(responseData.token, 1000 * 1000);
+    saveTokenInLocalStorage(
+      responseData.token,
+      1000 * 1000,
+      responseData.userId
+    );
+    autoLogout(() => logout(dispatch));
+
     return { message: 'Successfully created account', success: true };
   } catch (err) {}
 };
@@ -52,9 +70,17 @@ export const login = async (dispatch, userLoginDetails) => {
     }
     dispatch({
       type: actionTypes.LOGIN,
-      payload: { userId: responseData.userId, token: responseData.token },
+      payload: {
+        userId: responseData.userId,
+        token: responseData.token,
+      },
     });
-    saveTokenInLocalStorage(responseData.token, 10 * 1000);
+    saveTokenInLocalStorage(
+      responseData.token,
+      1000 * 1000,
+      responseData.userId
+    );
+    autoLogout(() => logout(dispatch));
     return { message: 'Successfully logged in', success: true };
   } catch (err) {}
 };

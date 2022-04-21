@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppBar, makeStyles } from '@material-ui/core';
-// import jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
 import DrawerNav from './DrawerNav';
 import HeaderNav from './HeaderNav';
 import { AppProviderContext } from '../../integration/context/appProviderContext';
+import { server } from '../../helpers/utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -20,18 +21,18 @@ const Navbar = (props) => {
   let { state } = useContext(AppProviderContext);
   let token = state.token;
   const { header } = useStyles();
-  console.log(state, token);
 
   const [mobileView, setMobileView] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
 
   let role, imageUrl, email;
 
+  let decodedToken;
   if (token) {
-    var decoded = '';
-    email = decoded.email;
-    imageUrl = decoded.image;
-    role = decoded.role;
+    decodedToken = jwt_decode(token);
+    // email = decoded.email;
+    imageUrl = server + decodedToken.image;
+    // role = decoded.role;
   } else token = null;
 
   let buttons = [];
@@ -54,14 +55,20 @@ const Navbar = (props) => {
   if (token) {
     buttons = [
       {
-        label: 'Home',
+        label: 'Find place',
         href: '/',
-        test: 'home-link',
       },
       {
-        label: 'Courses',
-        href: '/courses',
-        test: 'courses-link',
+        label: 'New place',
+        href: '/places/new',
+      },
+      {
+        label: 'My places',
+        href: '/places/myplaces',
+      },
+      {
+        label: 'Favourites',
+        href: '/places/myfavourites',
       },
     ];
   }

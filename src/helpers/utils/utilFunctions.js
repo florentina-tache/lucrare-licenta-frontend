@@ -4,22 +4,21 @@ export const updateState = (state, newState) => {
   return _.merge(state, newState);
 };
 
-export const saveTokenInLocalStorage = (token, expiresIn) => {
+export const saveTokenInLocalStorage = (token, expiresIn, userId) => {
+  console.log(new Date(new Date().getTime() + expiresIn));
   localStorage.setItem(
     'userData',
     JSON.stringify({
       token,
+      userId,
       expirationDate: new Date(new Date().getTime() + expiresIn),
     })
   );
 };
 
-// export const runLogotTimer = (dispatch, logoutFn, timer) => {
-//   setTimeout(() => {
-//     dispatch(authActions.logout());
-//     logoutFn();
-//   }, timer);
-// };
+export const removeTokenFromLocalStorage = () => {
+  localStorage.removeItem('userData');
+};
 
 export const getTokenFromStorage = () => {
   const userData = localStorage.getItem('userData');
@@ -31,18 +30,24 @@ export const getTokenFromStorage = () => {
   if (currentDate > new Date(tokenDetails.expirationDate)) {
     return null;
   }
-  console.log('localstorage', tokenDetails.token);
 
   return tokenDetails.token;
 };
 
-// export const checkAutoLogin = (dispatch, logoutFn) => {
-//   const userData = localStorage.getItem('userData');
-//   if (!userData) {
-//     return;
-//   }
-//   const expirationDate = JSON.parse(userData).expirationDate;
-//   const currentDate = new Date();
-//   const timer = new Date(expirationDate).getTime() - currentDate.getTime();
-//   runLogotTimer(dispatch, logoutFn, timer);
-// };
+export const runLogoutTimer = (logoutFn, timer) => {
+  console.log(timer);
+  setTimeout(() => {
+    logoutFn();
+  }, timer);
+};
+
+export const autoLogout = (logoutFn) => {
+  const userData = localStorage.getItem('userData');
+  if (!userData) {
+    return;
+  }
+  const expirationDate = JSON.parse(userData).expirationDate;
+  const currentDate = new Date();
+  const timer = new Date(expirationDate).getTime() - currentDate.getTime();
+  runLogoutTimer(logoutFn, timer);
+};
