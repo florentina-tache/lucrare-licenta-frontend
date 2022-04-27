@@ -21,7 +21,7 @@ export const signUp = async (dispatch, userSignUpDetails) => {
     formData.append('email', email);
     formData.append('password', password);
     formData.append('image', image);
-    const response = await fetch('http://localhost:5000/api/auth/signup', {
+    const response = await fetch(`${server}api/auth/signup`, {
       method: 'POST',
       body: formData,
     });
@@ -52,7 +52,7 @@ export const signUp = async (dispatch, userSignUpDetails) => {
 export const login = async (dispatch, userLoginDetails) => {
   const { email, password } = userLoginDetails;
   try {
-    const response = await fetch('http://localhost:5000/api/auth/login', {
+    const response = await fetch(`${server}api/auth/login`, {
       method: 'POST',
       body: JSON.stringify({
         email,

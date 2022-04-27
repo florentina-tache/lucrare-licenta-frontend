@@ -1,9 +1,10 @@
 import * as actionTypes from './types';
+import { server } from '../../helpers/utils/constants';
 
 export const fetchPlaceById = async (dispatch, placeId) => {
   try {
     const response = await fetch(
-      `http://localhost:5000/api/places/${placeId}`,
+      `${server}api/places/${placeId}`,
       {
         method: 'GET',
       }
@@ -26,7 +27,7 @@ export const fetchPlaceById = async (dispatch, placeId) => {
 export const fetchUserPlaces = async (dispatch, userId) => {
   try {
     const response = await fetch(
-      `http://localhost:5000/api/places/user/${userId}`,
+      `${server}api/places/user/${userId}`,
       {
         method: 'GET',
       }
@@ -47,7 +48,7 @@ export const fetchUserPlaces = async (dispatch, userId) => {
 
 export const fetchRandomPlace = async (dispatch) => {
   try {
-    const response = await fetch(`http://localhost:5000/api/places/random`, {
+    const response = await fetch(`${server}api/places/random`, {
       method: 'GET',
     });
 
@@ -73,7 +74,7 @@ export const addNewPlace = async (dispatch, newPlaceDetails, userId) => {
     formData.append('address', address);
     formData.append('image', image);
     formData.append('creator', userId);
-    const response = await fetch('http://localhost:5000/api/places', {
+    const response = await fetch(`${server}api/places`, {
       method: 'POST',
       body: formData,
     });
