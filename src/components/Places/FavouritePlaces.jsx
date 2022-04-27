@@ -29,9 +29,9 @@ const FavouritePlaces = () => {
     // getFavouritePlaces();
   }, []);
 
-  useEffect(() => {
-    console.log(favouritePlaces);
-  }, [favouritePlaces]);
+  // useEffect(() => {
+  //   console.log(favouritePlaces);
+  // }, [favouritePlaces]);
 
   return favouritePlaces ? (
     <UserPlaces itemData={favouritePlaces.places} />

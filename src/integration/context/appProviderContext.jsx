@@ -8,7 +8,7 @@ export const AppProviderContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(appProviderReducer, initialState);
-  const actions = appProviderActions(dispatch);
+  const actions = appProviderActions(dispatch, state.token);
 
   return (
     <AppProviderContext.Provider value={{ state, dispatch, actions }}>

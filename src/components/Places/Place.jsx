@@ -41,7 +41,6 @@ const Place = ({
 }) => {
   const classes = useStyles();
   const { actions } = useContext(AppProviderContext);
-  console.log(title);
 
   return (
     <Card className={classes.root}>

@@ -3,12 +3,9 @@ import { server } from '../../helpers/utils/constants';
 
 export const fetchPlaceById = async (dispatch, placeId) => {
   try {
-    const response = await fetch(
-      `${server}api/places/${placeId}`,
-      {
-        method: 'GET',
-      }
-    );
+    const response = await fetch(`${server}api/places/${placeId}`, {
+      method: 'GET',
+    });
 
     const responseData = await response.json();
 
@@ -24,14 +21,12 @@ export const fetchPlaceById = async (dispatch, placeId) => {
   } catch (err) {}
 };
 
-export const fetchUserPlaces = async (dispatch, userId) => {
+export const fetchUserPlaces = async (dispatch, userId, token) => {
   try {
-    const response = await fetch(
-      `${server}api/places/user/${userId}`,
-      {
-        method: 'GET',
-      }
-    );
+    const response = await fetch(`${server}api/places/user/${userId}`, {
+      method: 'GET',
+      headers: { Authorization: 'Bearer ' + token },
+    });
 
     const responseData = await response.json();
 
@@ -46,10 +41,11 @@ export const fetchUserPlaces = async (dispatch, userId) => {
   } catch (err) {}
 };
 
-export const fetchRandomPlace = async (dispatch) => {
+export const fetchRandomPlace = async (dispatch, token) => {
   try {
     const response = await fetch(`${server}api/places/random`, {
       method: 'GET',
+      headers: { Authorization: 'Bearer ' + token },
     });
 
     const responseData = await response.json();
@@ -65,7 +61,7 @@ export const fetchRandomPlace = async (dispatch) => {
   } catch (err) {}
 };
 
-export const addNewPlace = async (dispatch, newPlaceDetails, userId) => {
+export const addNewPlace = async (dispatch, newPlaceDetails, userId, token) => {
   const { title, description, address, image } = newPlaceDetails;
   try {
     let formData = new FormData();
@@ -77,6 +73,7 @@ export const addNewPlace = async (dispatch, newPlaceDetails, userId) => {
     const response = await fetch(`${server}api/places`, {
       method: 'POST',
       body: formData,
+      headers: { Authorization: 'Bearer ' + token },
     });
 
     const responseData = await response.json();

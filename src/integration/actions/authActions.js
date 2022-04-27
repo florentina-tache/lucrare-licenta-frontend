@@ -13,7 +13,6 @@ export const logout = (dispatch) => {
 
 export const signUp = async (dispatch, userSignUpDetails) => {
   const { firstName, lastName, email, password, image } = userSignUpDetails;
-  console.log(image);
   try {
     let formData = new FormData();
     formData.append('firstName', firstName);

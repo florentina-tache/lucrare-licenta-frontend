@@ -5,13 +5,15 @@ import Place from './Place';
 import { AppProviderContext } from '../../integration/context/appProviderContext';
 
 const Places = () => {
-  const { actions } = useContext(AppProviderContext);
+  const { state, actions } = useContext(AppProviderContext);
   const [placeDetails, setPlaceDetails] = useState(null);
+
+  let token = state.token;
 
   const getRandomPlace = async () => {
     let place;
     try {
-      place = await actions.fetchRandomPlace();
+      place = await actions.fetchRandomPlace(token);
     } catch (err) {}
     setPlaceDetails(place.place);
   };

@@ -28,11 +28,7 @@ const AddedPlaces = () => {
     getAddedPlaces();
   }, []);
 
-  useEffect(() => {
-    console.log(addedPlaces);
-  }, [addedPlaces]);
-
-  return addedPlaces ? (
+  return addedPlaces?.places ? (
     <UserPlaces itemData={addedPlaces.places} />
   ) : (
     <AlertMessage text='No places found!' />
