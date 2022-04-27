@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
 import ImageListItemBar from '@material-ui/core/ImageListItemBar';
@@ -8,6 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import ImageUpload from '../shared/ImageUpload';
 import { server } from '../../helpers/utils/constants';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CreateIcon from '@material-ui/icons/Create';
 
 // import itemData from './itemData';
 
@@ -30,6 +34,11 @@ const useStyles = makeStyles((theme) => ({
 
 const UserPlaces = ({ itemData }) => {
   const classes = useStyles();
+  let navigate = useNavigate();
+
+  const onEditHandler = () => {
+    navigate('/places/edit/:placeId');
+  };
 
   return (
     <div className={classes.root}>
@@ -50,10 +59,12 @@ const UserPlaces = ({ itemData }) => {
               subtitle={<span>by: {item.author}</span>}
               actionIcon={
                 <IconButton
-                  aria-label={`info about ${item.title}`}
-                  className={classes.icon}
+                  color='error'
+                  aria-label='upload picture'
+                  component='span'
+                  onClick={onEditHandler}
                 >
-                  <InfoIcon />
+                  <CreateIcon />
                 </IconButton>
               }
             />
