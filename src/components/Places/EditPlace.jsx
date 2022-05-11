@@ -1,9 +1,15 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import jwt_decode from 'jwt-decode';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Input from '../shared/Input';
 import { VALIDATE_REQUIRED } from '../../helpers/utils/validators';
+import { useForm } from '../../helpers/hooks/form-hook';
+import { useToasts } from 'react-toast-notifications';
+import { AppProviderContext } from '../../integration/context/appProviderContext';
+import { server } from '../../helpers/utils/constants';
+import { useParams } from 'react-router-dom';
+
+import Input from '../shared/Input';
 import {
   Container,
   Typography,
@@ -13,9 +19,6 @@ import {
   CardContent,
   CircularProgress,
 } from '@material-ui/core';
-import { useForm } from '../../helpers/hooks/form-hook';
-import { useToasts } from 'react-toast-notifications';
-import { AppProviderContext } from '../../integration/context/appProviderContext';
 import ImageUpload from '../shared/ImageUpload';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +44,9 @@ const EditPlace = () => {
   const classes = useStyles();
   const { actions, state } = useContext(AppProviderContext);
   const { addToast } = useToasts();
+  const placeId = useParams().placeId;
+  const [placeDetails, setPlaceDetails] = useState(null);
+
   let token = state.token;
   let decodedToken, userId;
   if (token) {
@@ -48,9 +54,7 @@ const EditPlace = () => {
     userId = decodedToken.userId;
   }
 
-  const isLoading = false;
-
-  const [formState, inputHandler] = useForm(
+  const [formState, inputHandler, setFormData] = useForm(
     {
       title: {
         value: '',
@@ -64,13 +68,53 @@ const EditPlace = () => {
         value: '',
         isValid: false,
       },
-      image: {
-        value: '',
-        isValid: false,
-      },
     },
     false
   );
+
+  const getPlaceById = async () => {
+    let place;
+    try {
+      place = await actions.fetchPlaceById(placeId);
+      console.log('place', place);
+    } catch (err) {}
+    setPlaceDetails(place.place);
+    setFormData(
+      {
+        title: {
+          value: place.place.title,
+          isValid: true,
+        },
+        description: {
+          value: place.place.description,
+          isValid: true,
+        },
+        address: {
+          value: place.place.address,
+          isValid: true,
+        },
+        image: {
+          value: place.place.image,
+          isValid: true,
+        },
+      },
+      true
+    );
+  };
+
+  useEffect(() => {
+    if (placeId) {
+      getPlaceById(placeId);
+    }
+  }, [placeId]);
+
+  // useEffect(() => {
+  //   console.log(placeDetails);
+  // }, [placeDetails]);
+
+  // useEffect(() => {
+  //   console.log(formState);
+  // }, [formState]);
 
   const fields = [
     {
@@ -136,14 +180,13 @@ const EditPlace = () => {
     event.preventDefault();
 
     try {
-      const createdPlaceStatus = await actions.addNewPlace(
+      const createdPlaceStatus = await actions.updatePlace(
         {
           title: formState.inputs.title.value,
           description: formState.inputs.description.value,
           address: formState.inputs.address.value,
-          image: formState.inputs.image.value,
         },
-        userId
+        placeId
       );
 
       const { message, success } = createdPlaceStatus;
@@ -177,6 +220,7 @@ const EditPlace = () => {
                       xs={field.grid.xs}
                       sm={field.grid.sm}
                     >
+                      {/* {console.log(formState.inputs[field.textField.id].value)} */}
                       <Input
                         data-test='input'
                         variant='outlined'
@@ -191,18 +235,23 @@ const EditPlace = () => {
                         helperText={field.textField.errorText}
                         validators={field.textField.validators}
                         onInput={inputHandler}
+                        value={formState.inputs[field.textField.id].value}
                       />
                     </Grid>
                   );
                 })}
               </Grid>
-              <ImageUpload
-                id='image'
-                onInput={inputHandler}
-                errorText='Please provide an image.'
-                width={250}
-                height={200}
-              />
+              {console.log('ceva', server + formState?.inputs?.image?.value)}
+              {formState?.inputs?.image?.value && (
+                <ImageUpload
+                  id='image'
+                  onInput={inputHandler}
+                  errorText='Please provide an image.'
+                  width={250}
+                  height={200}
+                  imageUrl={server + formState?.inputs?.image?.value}
+                />
+              )}
               <Button
                 data-test='submit-button'
                 type='submit'
@@ -212,11 +261,7 @@ const EditPlace = () => {
                 className={classes.submit}
                 disabled={!formState.isValid}
               >
-                {!isLoading ? (
-                  'Add new location'
-                ) : (
-                  <CircularProgress color='inherit' size='1.5rem' />
-                )}
+                EDIT PLACE
               </Button>
             </form>
           </div>

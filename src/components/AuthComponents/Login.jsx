@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext } from 'react';
 import {
   Container,
   Typography,
@@ -8,16 +8,16 @@ import {
   Link,
   CardContent,
   CircularProgress,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import Input from "../shared/Input";
-import { VALIDATE_REQUIRED } from "../../helpers/utils/validators";
-import { useForm } from "../../helpers/hooks/form-hook";
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import Input from '../shared/Input';
+import { VALIDATE_REQUIRED } from '../../helpers/utils/validators';
+import { useForm } from '../../helpers/hooks/form-hook';
 // import * as authActions from '../../actions/authActions';
-import { useToasts } from "react-toast-notifications";
+import { useToasts } from 'react-toast-notifications';
 // import { useHistory } from 'react-router-dom';
-import { AppProviderContext } from "../../integration/context/appProviderContext";
-import { useNavigate } from "react-router-dom";
+import { AppProviderContext } from '../../integration/context/appProviderContext';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -25,12 +25,12 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     marginTop: theme.spacing(3),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   form: {
-    width: "100%",
+    width: '100%',
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 const Login = (props) => {
   const classes = useStyles();
   let navigate = useNavigate();
-  const { actions } = useContext(AppProviderContext);
+  const { actions, state } = useContext(AppProviderContext);
 
   const fields = [
     {
@@ -50,16 +50,16 @@ const Login = (props) => {
         sm: 12,
       },
       textField: {
-        id: "email",
-        label: "Email Address",
-        name: "email",
-        type: "email",
-        autoComplete: "email",
+        id: 'email',
+        label: 'Email Address',
+        name: 'email',
+        type: 'email',
+        autoComplete: 'email',
         required: true,
         fullWidth: true,
         autoFocus: false,
         error: false,
-        errorText: "Please enter your email.",
+        errorText: 'Please enter your email.',
         validators: [VALIDATE_REQUIRED()],
       },
     },
@@ -69,16 +69,16 @@ const Login = (props) => {
         sm: 12,
       },
       textField: {
-        name: "password",
-        label: "Password",
-        type: "password",
-        id: "password",
-        autoComplete: "current-password",
+        name: 'password',
+        label: 'Password',
+        type: 'password',
+        id: 'password',
+        autoComplete: 'current-password',
         required: true,
         fullWidth: true,
         autoFocus: false,
         error: false,
-        errorText: "Please enter your password.",
+        errorText: 'Please enter your password.',
         validators: [VALIDATE_REQUIRED()],
       },
     },
@@ -87,11 +87,11 @@ const Login = (props) => {
   const [formState, inputHandler] = useForm(
     {
       email: {
-        value: "",
+        value: '',
         isValid: false,
       },
       password: {
-        value: "",
+        value: '',
         isValid: false,
       },
     },
@@ -108,7 +108,7 @@ const Login = (props) => {
         // await dispatch(authActions.clearError());
       };
       addToast(error, {
-        appearance: "error",
+        appearance: 'error',
         autoDismiss: true,
       });
       clearError();
@@ -127,33 +127,33 @@ const Login = (props) => {
         const { message, success } = loginStatus;
 
         addToast(message, {
-          appearance: success ? "success" : "error",
+          appearance: success ? 'success' : 'error',
           autoDismiss: true,
         });
 
         if (success) {
-          navigate("/");
+          navigate('/');
         }
       } else {
-        addToast("Unknown error occured", {
-          appearance: "error",
+        addToast('Unknown error occured', {
+          appearance: 'error',
           autoDismiss: true,
         });
       }
     } catch (err) {
       addToast(err, {
-        appearance: "error",
+        appearance: 'error',
         autoDismiss: true,
       });
     }
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Card variant="outlined" className={classes.card}>
+    <Container component='main' maxWidth='xs'>
+      <Card variant='outlined' className={classes.card}>
         <CardContent>
           <div className={classes.paper}>
-            <Typography component="h1" variant="h5">
+            <Typography component='h1' variant='h5'>
               Login
             </Typography>
             <form className={classes.form} onSubmit={submitHandler}>
@@ -168,7 +168,7 @@ const Login = (props) => {
                     >
                       <Input
                         data-test={`${field.textField.id}-input`}
-                        variant="outlined"
+                        variant='outlined'
                         required={field.textField.required}
                         fullWidth={field.textField.fullWidth}
                         id={field.textField.id}
@@ -186,26 +186,26 @@ const Login = (props) => {
                 })}
               </Grid>
               <Button
-                data-test="submit-button"
-                type="submit"
+                data-test='submit-button'
+                type='submit'
                 fullWidth
-                variant="contained"
-                color="primary"
+                variant='contained'
+                color='primary'
                 className={classes.submit}
                 disabled={!formState.isValid}
               >
                 {!isLoading ? (
-                  "Sign In"
+                  'Sign In'
                 ) : (
-                  <CircularProgress color="inherit" size="1.5rem" />
+                  <CircularProgress color='inherit' size='1.5rem' />
                 )}
               </Button>
-              <Grid container justify="center">
+              <Grid container justify='center'>
                 <Grid item>
                   <Link
-                    data-test="redirect-link"
-                    href={isLoading ? "#" : "/signup"}
-                    variant="body2"
+                    data-test='redirect-link'
+                    href={isLoading ? '#' : '/signup'}
+                    variant='body2'
                   >
                     Don't have an account?
                   </Link>

@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import AppProvider from './integration/context/appProviderContext';
+import AppProvider, {
+  AppProviderContext,
+} from './integration/context/appProviderContext';
 
 import Navbar from './components/Navigation/Navbar';
 import SignUp from './components/AuthComponents/SignUp';

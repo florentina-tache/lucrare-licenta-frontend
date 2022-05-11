@@ -76,7 +76,7 @@ export const login = async (dispatch, userLoginDetails) => {
     });
     saveTokenInLocalStorage(
       responseData.token,
-      1000 * 1000,
+      1000 * 100000,
       responseData.userId
     );
     autoLogout(() => logout(dispatch));

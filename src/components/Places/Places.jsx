@@ -22,7 +22,6 @@ const Places = () => {
     getRandomPlace();
   }, []);
 
-  useEffect(() => {}, [placeDetails]);
   return (
     <>
       {placeDetails && (

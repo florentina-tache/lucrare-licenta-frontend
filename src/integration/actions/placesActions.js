@@ -1,10 +1,11 @@
 import * as actionTypes from './types';
 import { server } from '../../helpers/utils/constants';
 
-export const fetchPlaceById = async (dispatch, placeId) => {
+export const fetchPlaceById = async (dispatch, placeId, token) => {
   try {
     const response = await fetch(`${server}api/places/${placeId}`, {
       method: 'GET',
+      headers: { Authorization: 'Bearer ' + token },
     });
 
     const responseData = await response.json();
@@ -16,14 +17,13 @@ export const fetchPlaceById = async (dispatch, placeId) => {
       type: actionTypes.GET_PLACE_BY_ID,
       payload: { userId: responseData.userId, token: responseData.token },
     });
-    // console.log('ceva', responseData);
     return { place: responseData.place };
   } catch (err) {}
 };
 
-export const fetchUserPlaces = async (dispatch, userId, token) => {
+export const fetchUserPlaces = async (dispatch, userId, token, placeType) => {
   try {
-    const response = await fetch(`${server}api/places/user/${userId}`, {
+    const response = await fetch(`${server}api/places/user/added/${userId}`, {
       method: 'GET',
       headers: { Authorization: 'Bearer ' + token },
     });
@@ -61,7 +61,13 @@ export const fetchRandomPlace = async (dispatch, token) => {
   } catch (err) {}
 };
 
-export const addNewPlace = async (dispatch, newPlaceDetails, userId, token) => {
+export const addNewPlace = async (
+  dispatch,
+  newPlaceDetails,
+  userId,
+  token,
+  placeType
+) => {
   const { title, description, address, image } = newPlaceDetails;
   try {
     let formData = new FormData();
@@ -70,7 +76,7 @@ export const addNewPlace = async (dispatch, newPlaceDetails, userId, token) => {
     formData.append('address', address);
     formData.append('image', image);
     formData.append('creator', userId);
-    const response = await fetch(`${server}api/places`, {
+    const response = await fetch(`${server}api/places/added`, {
       method: 'POST',
       body: formData,
       headers: { Authorization: 'Bearer ' + token },
@@ -85,5 +91,62 @@ export const addNewPlace = async (dispatch, newPlaceDetails, userId, token) => {
       type: actionTypes.ADD_NEW_PLACE,
     });
     return { message: 'Successfully added place', success: true };
+  } catch (err) {}
+};
+
+export const updatePlace = async (dispatch, placeDetails, placeId, token) => {
+  const { title, description, address } = placeDetails;
+  try {
+    let formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('address', address);
+
+    const response = await fetch(`${server}api/places/${placeId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ title, description, address }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    });
+
+    const responseData = await response.json();
+    console.log(responseData);
+
+    if (response.status !== 200) {
+      return { ...responseData, success: false };
+    }
+
+    dispatch({
+      type: actionTypes.ADD_NEW_PLACE,
+    });
+    return { message: 'Successfully updated place', success: true };
+  } catch (err) {}
+};
+
+export const deletePlace = async (dispatch, placeId, token) => {
+  console.log('!!!', token);
+
+  try {
+    const response = await fetch(`${server}api/places/${placeId}`, {
+      method: 'DELETE',
+      body: null,
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+
+    const responseData = await response.json();
+    console.log(responseData);
+
+    if (response.status !== 200) {
+      return { ...responseData, success: false };
+    }
+
+    dispatch({
+      type: actionTypes.ADD_NEW_PLACE,
+    });
+    return { message: 'Successfully updated place', success: true };
   } catch (err) {}
 };

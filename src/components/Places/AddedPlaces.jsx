@@ -19,7 +19,8 @@ const AddedPlaces = () => {
   const getAddedPlaces = async () => {
     let places;
     try {
-      places = await actions.fetchUserPlaces(userId);
+      places = await actions.fetchUserPlaces(userId, 'added');
+      console.log('err', places);
     } catch (err) {}
     setAddedPlaces(places);
   };

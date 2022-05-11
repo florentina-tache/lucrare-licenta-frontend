@@ -31,7 +31,7 @@ const ImageUpload = (props) => {
   const classes = useStyles(props)();
 
   const [file, setFile] = useState();
-  const [previewUrl, setPreviewUrl] = useState();
+  const [previewUrl, setPreviewUrl] = useState(props.imageUrl || null);
   const [isValid, setIsValid] = useState(false);
 
   const filePickerRef = useRef();
@@ -40,12 +40,18 @@ const ImageUpload = (props) => {
     if (!file) {
       return;
     }
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      setPreviewUrl(fileReader.result);
-    };
-    fileReader.readAsDataURL(file);
+    if (!previewUrl) {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setPreviewUrl(fileReader.result);
+      };
+      fileReader.readAsDataURL(file);
+    }
   }, [file]);
+
+  // useEffect(() => {
+  //   console.log(previewUrl);
+  // }, [previewUrl]);
 
   const pickedHandler = (event) => {
     let pickedFile;
@@ -104,14 +110,16 @@ const ImageUpload = (props) => {
             alignItems='center'
           >
             <label htmlFor='icon-button-file'>
-              <IconButton
-                color='error'
-                onClick={pickImageHandler}
-                aria-label='upload picture'
-                component='span'
-              >
-                <PhotoCamera />
-              </IconButton>
+              {!previewUrl && (
+                <IconButton
+                  color='error'
+                  onClick={pickImageHandler}
+                  aria-label='upload picture'
+                  component='span'
+                >
+                  <PhotoCamera />
+                </IconButton>
+              )}
             </label>
           </Grid>
         </Grid>

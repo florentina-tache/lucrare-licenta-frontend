@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppBar, makeStyles } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
+
 import jwt_decode from 'jwt-decode';
 import DrawerNav from './DrawerNav';
 import HeaderNav from './HeaderNav';
@@ -21,6 +23,7 @@ const Navbar = (props) => {
   let { state } = useContext(AppProviderContext);
   let token = state.token;
   const { header } = useStyles();
+  let navigate = useNavigate();
 
   const [mobileView, setMobileView] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -110,6 +113,12 @@ const Navbar = (props) => {
     return () => {
       window.removeEventListener('resize', () => setResponsiveness());
     };
+  }, []);
+
+  useEffect(() => {
+    if (!state.token) {
+      navigate('/login');
+    }
   }, []);
 
   const handleDrawerOpen = () => setOpenDrawer(true);
