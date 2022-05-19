@@ -20,20 +20,20 @@ const FavouritePlaces = () => {
   const getFavouritePlaces = async () => {
     let places;
     try {
-      places = await actions.fetchUserPlaces(userId);
+      places = await actions.fetchUserPlaces(userId, 'favourites');
     } catch (err) {}
     setFavouritePlaces(places);
   };
 
   useEffect(() => {
-    // getFavouritePlaces();
+    getFavouritePlaces();
   }, []);
 
   // useEffect(() => {
   //   console.log(favouritePlaces);
   // }, [favouritePlaces]);
 
-  return favouritePlaces ? (
+  return favouritePlaces?.places ? (
     <UserPlaces itemData={favouritePlaces.places} />
   ) : (
     <AlertMessage text='No places found!' />

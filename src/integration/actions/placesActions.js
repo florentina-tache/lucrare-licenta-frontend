@@ -23,10 +23,13 @@ export const fetchPlaceById = async (dispatch, placeId, token) => {
 
 export const fetchUserPlaces = async (dispatch, userId, token, placeType) => {
   try {
-    const response = await fetch(`${server}api/places/user/added/${userId}`, {
-      method: 'GET',
-      headers: { Authorization: 'Bearer ' + token },
-    });
+    const response = await fetch(
+      `${server}api/places/user/${placeType}/${userId}`,
+      {
+        method: 'GET',
+        headers: { Authorization: 'Bearer ' + token },
+      }
+    );
 
     const responseData = await response.json();
 
@@ -61,6 +64,35 @@ export const fetchRandomPlace = async (dispatch, token) => {
   } catch (err) {}
 };
 
+export const fetchSearchedPlace = async (tag, token) => {
+  console.log('tag', JSON.stringify({ tag }));
+  try {
+    const response = await fetch(`${server}api/places/search`, {
+      method: 'POST',
+      body: JSON.stringify({ tag }),
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-type': 'application/json',
+      },
+    });
+
+    const responseData = await response.json();
+
+    // if (response.status !== 200) {
+    //   return { ...responseData, success: false };
+    // }
+    // dispatch({
+    //   type: actionTypes.GET_PLACES_BY_USER_ID,
+    //   // payload: { userId: responseData.userId, token: responseData.token },
+    // });
+    console.log('responseData', responseData);
+
+    return { place: responseData.places };
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const addNewPlace = async (
   dispatch,
   newPlaceDetails,
@@ -69,6 +101,7 @@ export const addNewPlace = async (
   placeType
 ) => {
   const { title, description, address, image } = newPlaceDetails;
+  console.log('!!!', userId);
   try {
     let formData = new FormData();
     formData.append('title', title);
@@ -76,7 +109,7 @@ export const addNewPlace = async (
     formData.append('address', address);
     formData.append('image', image);
     formData.append('creator', userId);
-    const response = await fetch(`${server}api/places/added`, {
+    const response = await fetch(`${server}api/places/${placeType}`, {
       method: 'POST',
       body: formData,
       headers: { Authorization: 'Bearer ' + token },
@@ -126,8 +159,6 @@ export const updatePlace = async (dispatch, placeDetails, placeId, token) => {
 };
 
 export const deletePlace = async (dispatch, placeId, token) => {
-  console.log('!!!', token);
-
   try {
     const response = await fetch(`${server}api/places/${placeId}`, {
       method: 'DELETE',

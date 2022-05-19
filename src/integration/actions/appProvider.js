@@ -5,6 +5,7 @@ import {
   fetchUserPlaces,
   addNewPlace,
   fetchRandomPlace,
+  fetchSearchedPlace,
   updatePlace,
   deletePlace,
 } from './placesActions';
@@ -17,6 +18,7 @@ export const appProviderActions = (dispatch, token) => {
     fetchRandomPlace: () => fetchRandomPlace(dispatch, token),
     fetchUserPlaces: (userId, placeType) =>
       fetchUserPlaces(dispatch, userId, token, placeType),
+    fetchSearchedPlace: (tag) => fetchSearchedPlace(tag, token),
     addNewPlace: (newPlaceDetails, userId, placeType) =>
       addNewPlace(dispatch, newPlaceDetails, userId, token, placeType),
     logout: () => logout(dispatch),

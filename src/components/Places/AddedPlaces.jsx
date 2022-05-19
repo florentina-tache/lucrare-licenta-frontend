@@ -15,6 +15,7 @@ const AddedPlaces = () => {
   }
 
   const [addedPlaces, setAddedPlaces] = useState(null);
+  const [deletedAPlace, setDeletedAPlace] = useState(false);
 
   const getAddedPlaces = async () => {
     let places;
@@ -23,14 +24,24 @@ const AddedPlaces = () => {
       console.log('err', places);
     } catch (err) {}
     setAddedPlaces(places);
+    setDeletedAPlace(false);
   };
 
   useEffect(() => {
     getAddedPlaces();
   }, []);
 
+  useEffect(() => {
+    if (deletedAPlace) {
+      getAddedPlaces();
+    }
+  }, [deletedAPlace]);
+
   return addedPlaces?.places ? (
-    <UserPlaces itemData={addedPlaces.places} />
+    <UserPlaces
+      itemData={addedPlaces.places}
+      setDeletedAPlace={setDeletedAPlace}
+    />
   ) : (
     <AlertMessage text='No places found!' />
   );

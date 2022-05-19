@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
   },
   imageList: {
     width: 1000,
-    height: 1000,
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
@@ -47,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserPlaces = ({ itemData }) => {
+const UserPlaces = ({ itemData, setDeletedAPlace = () => {} }) => {
   const classes = useStyles();
   let navigate = useNavigate();
   const { actions } = useContext(AppProviderContext);
@@ -71,6 +70,7 @@ const UserPlaces = ({ itemData }) => {
     console.log(actions);
     await actions.deletePlace(placeToBeDeleted.id);
     setIsModalOpen(false);
+    setDeletedAPlace(true);
     navigate(`/places/myplaces`);
   };
 

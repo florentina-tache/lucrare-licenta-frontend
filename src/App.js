@@ -13,6 +13,7 @@ import EditPlace from './components/Places/EditPlace';
 import AddedPlaces from './components/Places/AddedPlaces';
 import FavouritePlaces from './components/Places/FavouritePlaces';
 import UsersList from './components/AdminDashboard/UsersList';
+import Map from './components/Places/Map';
 
 import './App.css';
 
@@ -28,6 +29,7 @@ const App = () => {
         <Route path='/places/myplaces' element={<AddedPlaces />} />
         <Route path='/places/myfavourites' element={<FavouritePlaces />} />
         <Route path='/admin/users' element={<UsersList />} />
+        <Route path='/map' element={<Map />} />
         <Route path='/' element={<Places />} />
       </Routes>
     </Router>
