@@ -5,7 +5,6 @@ export const updateState = (state, newState) => {
 };
 
 export const saveTokenInLocalStorage = (token, expiresIn, userId) => {
-  console.log(new Date(new Date().getTime() + expiresIn));
   localStorage.setItem(
     'userData',
     JSON.stringify({
@@ -35,7 +34,6 @@ export const getTokenFromStorage = () => {
 };
 
 export const runLogoutTimer = (logoutFn, timer) => {
-  console.log(timer);
   setTimeout(() => {
     logoutFn();
   }, timer);

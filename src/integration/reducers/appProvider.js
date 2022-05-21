@@ -13,6 +13,8 @@ export const appProviderReducer = (state, action) => {
       return { ...state, payload };
     case actionTypes.GET_PLACES_BY_USER_ID:
       return { ...state, payload };
+    case actionTypes.UPDATE_PLACE:
+      return { ...state, payload };
     default:
       return state;
   }

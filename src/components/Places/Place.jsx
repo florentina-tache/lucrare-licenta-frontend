@@ -16,6 +16,8 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
+import { server } from '../../helpers/utils/constants';
+
 import { AppProviderContext } from '../../integration/context/appProviderContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,10 +26,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(4),
     marginLeft: theme.spacing(4),
   },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
   avatar: {
     backgroundColor: red[500],
   },
@@ -35,13 +33,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Place = ({
   title = 'title',
-  subheader = 'subheader',
   image = 'https://www.flytap.com/-/media/Flytap/new-tap-pages/destinations/europe/spain/ibiza/destinations-ibiza-og-image-1200x630.png',
   description = 'This impressive paella is a perfect ',
+  date = '11-09-2021',
 }) => {
   const classes = useStyles();
   const { actions } = useContext(AppProviderContext);
-  console.log(title);
 
   return (
     <Card className={classes.root}>
@@ -57,19 +54,20 @@ const Place = ({
           </IconButton>
         }
         title={title}
-        subheader={subheader}
+        subheader={`Creation date: ${date}`}
       />
-      <CardMedia className={classes.media} image={image} title={title} />
+      <CardMedia
+        style={{ height: '60vh', width: '100%' }}
+        component='img'
+        className={classes.media}
+        image={`${server}${image}`}
+        title={title}
+      />
       <CardContent>
         <Typography variant='body2' color='textSecondary' component='p'>
           {description}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label='add to favorites'>
-          <FavoriteIcon />
-        </IconButton>
-      </CardActions>
     </Card>
   );
 };

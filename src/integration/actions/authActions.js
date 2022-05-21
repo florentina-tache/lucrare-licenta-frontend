@@ -13,7 +13,6 @@ export const logout = (dispatch) => {
 
 export const signUp = async (dispatch, userSignUpDetails) => {
   const { firstName, lastName, email, password, image } = userSignUpDetails;
-  console.log(image);
   try {
     let formData = new FormData();
     formData.append('firstName', firstName);
@@ -77,7 +76,7 @@ export const login = async (dispatch, userLoginDetails) => {
     });
     saveTokenInLocalStorage(
       responseData.token,
-      1000 * 1000,
+      1000 * 100000,
       responseData.userId
     );
     autoLogout(() => logout(dispatch));
