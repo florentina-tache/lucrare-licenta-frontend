@@ -147,12 +147,14 @@ const NewPlace = () => {
         'added'
       );
 
-      const { message, success } = createdPlaceStatus;
+      if(createdPlaceStatus){
+        const { message, success } = createdPlaceStatus;
 
-      addToast(message, {
-        appearance: success ? 'success' : 'error',
-        autoDismiss: true,
-      });
+        addToast(message, {
+          appearance: success ? 'success' : 'error',
+          autoDismiss: true,
+        });
+      }
     } catch (err) {
       addToast(err, {
         appearance: 'error',

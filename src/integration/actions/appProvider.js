@@ -6,9 +6,11 @@ import {
   addNewPlace,
   fetchRandomPlace,
   fetchSearchedPlace,
+  fetchLatestPlaces,
   updatePlace,
   deletePlace,
 } from './placesActions';
+import { fetchUsers } from './usersActions';
 
 export const appProviderActions = (dispatch, token) => {
   return {
@@ -19,11 +21,13 @@ export const appProviderActions = (dispatch, token) => {
     fetchUserPlaces: (userId, placeType) =>
       fetchUserPlaces(dispatch, userId, token, placeType),
     fetchSearchedPlace: (tag) => fetchSearchedPlace(tag, token),
+    fetchLatestPlaces:  () => fetchLatestPlaces(token),
     addNewPlace: (newPlaceDetails, userId, placeType) =>
       addNewPlace(dispatch, newPlaceDetails, userId, token, placeType),
     logout: () => logout(dispatch),
     updatePlace: (placeDetails, placeId) =>
       updatePlace(dispatch, placeDetails, placeId, token),
     deletePlace: (placeId) => deletePlace(dispatch, placeId, token),
+    fetchUsers: () => fetchUsers(token),
   };
 };

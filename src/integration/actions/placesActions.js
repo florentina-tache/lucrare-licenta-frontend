@@ -85,13 +85,40 @@ export const fetchSearchedPlace = async (tag, token) => {
     //   type: actionTypes.GET_PLACES_BY_USER_ID,
     //   // payload: { userId: responseData.userId, token: responseData.token },
     // });
-    console.log('responseData', responseData);
 
     return { place: responseData.places };
   } catch (err) {
     console.log(err);
   }
 };
+
+export const fetchLatestPlaces = async (token) => {
+  try {
+    const response = await fetch(`${server}api/places/latest`, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-type': 'application/json',
+      },
+    });
+
+    const responseData = await response.json();
+
+    // if (response.status !== 200) {
+    //   return { ...responseData, success: false };
+    // }
+    // dispatch({
+    //   type: actionTypes.GET_PLACES_BY_USER_ID,
+    //   // payload: { userId: responseData.userId, token: responseData.token },
+    // });
+    console.log('responseData', responseData);
+
+    return { places: responseData.places };
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 
 export const addNewPlace = async (
   dispatch,
@@ -101,7 +128,6 @@ export const addNewPlace = async (
   placeType
 ) => {
   const { title, description, address, image } = newPlaceDetails;
-  console.log('!!!', userId);
   try {
     let formData = new FormData();
     formData.append('title', title);

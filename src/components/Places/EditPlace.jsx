@@ -241,7 +241,6 @@ const EditPlace = () => {
                   );
                 })}
               </Grid>
-              {console.log('ceva', server + formState?.inputs?.image?.value)}
               {formState?.inputs?.image?.value && (
                 <ImageUpload
                   id='image'

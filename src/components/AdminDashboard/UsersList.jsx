@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
@@ -19,6 +19,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import IconButton from '@mui/material/IconButton';
+
+import { AppProviderContext } from "../../integration/context/appProviderContext";
+import { server } from '../../helpers/utils/constants';
 
 const useStyles = makeStyles({
   table: {
@@ -42,8 +45,24 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-const BasicTable = () => {
+const UsersList = () => {
   const classes = useStyles();
+
+  const [users, setUsers] = useState(null);
+  const { actions } = useContext(AppProviderContext);
+
+  const fetchUsers = async () => {
+    const fetchedUsers = await actions.fetchUsers();
+    setUsers(fetchedUsers);
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    console.log(users);
+  }, [users]);
 
   return (
     <TableContainer component={Paper}>
@@ -54,22 +73,22 @@ const BasicTable = () => {
             <TableCell>Last Name</TableCell>
             <TableCell>Avatar</TableCell>
             <TableCell>Email</TableCell>
-            <TableCell>See profile</TableCell>
-            <TableCell>Edit user</TableCell>
+            <TableCell>See favourites</TableCell>
+            <TableCell>Edit added places</TableCell>
             <TableCell>Delete user</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
+          {users?.map((user) => (
+            <TableRow key={user.name}>
               <TableCell component='th' scope='row'>
-                {row.name}
+                {user.firstName}
               </TableCell>
-              <TableCell>{row.calories}</TableCell>
+              <TableCell>{user.lastName}</TableCell>
               <TableCell>
-                <Avatar alt='Remy Sharp' src='/static/images/avatar/1.jpg' />
+                <Avatar alt='Remy Sharp' src={server + 'uploads/userDefault.png'} />
               </TableCell>
-              <TableCell>{row.carbs}</TableCell>
+              <TableCell>{user.email}</TableCell>
               <TableCell>
                 <label htmlFor='icon-button-file'>
                   <Input accept='image/*' id='icon-button-file' type='button' />
@@ -82,7 +101,6 @@ const BasicTable = () => {
                   </IconButton>
                 </label>
               </TableCell>
-
               <TableCell>
                 <label htmlFor='icon-button-file'>
                   <Input accept='image/*' id='icon-button-file' type='button' />
@@ -115,4 +133,4 @@ const BasicTable = () => {
   );
 };
 
-export default BasicTable;
+export default UsersList;
