@@ -5,14 +5,8 @@ import { AppProviderContext } from '../../integration/context/appProviderContext
 import UserPlaces from './UserPlaces';
 import AlertMessage from '../shared/AlertMessage';
 
-const AddedPlaces = () => {
-  const { actions, state } = useContext(AppProviderContext);
-  let token = state.token;
-  let decodedToken, userId;
-  if (token) {
-    decodedToken = jwt_decode(token);
-    userId = decodedToken.userId;
-  }
+const AddedPlaces = ({userId}) => {
+  const { actions } = useContext(AppProviderContext);
 
   const [addedPlaces, setAddedPlaces] = useState(null);
   const [deletedAPlace, setDeletedAPlace] = useState(false);

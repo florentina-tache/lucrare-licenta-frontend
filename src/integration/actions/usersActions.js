@@ -16,3 +16,18 @@ export const fetchUsers = async (token) => {
     return responseData.users;
   } catch (err) {}
 };
+
+export const deleteUser = async (userId, token) => {
+  try {
+    const response = await fetch(`${server}api/users/${userId}`, {
+      method: "DELETE",
+      headers: { Authorization: "Bearer " + token },
+    });
+    const responseData = await response.json();
+
+    if (response.status !== 200) {
+      return { ...responseData, success: false };
+    }
+    return { message: "Successfully deleted place", success: true };
+  } catch (err) {}
+};

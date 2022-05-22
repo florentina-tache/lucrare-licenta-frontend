@@ -1,5 +1,5 @@
-import * as actionTypes from './types';
-import { signUp, login, logout } from './authActions';
+import * as actionTypes from "./types";
+import { signUp, login, logout } from "./authActions";
 import {
   fetchPlaceById,
   fetchUserPlaces,
@@ -9,8 +9,8 @@ import {
   fetchLatestPlaces,
   updatePlace,
   deletePlace,
-} from './placesActions';
-import { fetchUsers } from './usersActions';
+} from "./placesActions";
+import { fetchUsers, deleteUser } from "./usersActions";
 
 export const appProviderActions = (dispatch, token) => {
   return {
@@ -21,7 +21,7 @@ export const appProviderActions = (dispatch, token) => {
     fetchUserPlaces: (userId, placeType) =>
       fetchUserPlaces(dispatch, userId, token, placeType),
     fetchSearchedPlace: (tag) => fetchSearchedPlace(tag, token),
-    fetchLatestPlaces:  () => fetchLatestPlaces(token),
+    fetchLatestPlaces: () => fetchLatestPlaces(token),
     addNewPlace: (newPlaceDetails, userId, placeType) =>
       addNewPlace(dispatch, newPlaceDetails, userId, token, placeType),
     logout: () => logout(dispatch),
@@ -29,5 +29,6 @@ export const appProviderActions = (dispatch, token) => {
       updatePlace(dispatch, placeDetails, placeId, token),
     deletePlace: (placeId) => deletePlace(dispatch, placeId, token),
     fetchUsers: () => fetchUsers(token),
+    deleteUser: (userId) => deleteUser(userId, token),
   };
 };

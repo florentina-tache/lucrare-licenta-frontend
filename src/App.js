@@ -18,7 +18,7 @@ import NewLocation from "./components/Places/NewPlace";
 import EditPlace from "./components/Places/EditPlace";
 import AddedPlaces from "./components/Places/AddedPlaces";
 import FavouritePlaces from "./components/Places/FavouritePlaces";
-import UsersList from "./components/AdminDashboard/UsersList";
+import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 import SearchPage from "./components/Places/SearchPage";
 
 import "./App.css";
@@ -34,12 +34,18 @@ const App = () => {
         <Routes>
           <Route path="/places/new" element={<NewLocation />} />
           <Route path="/places/edit/:placeId" element={<EditPlace />} />
-          <Route path="/places/myplaces" element={<AddedPlaces />} />
-          <Route path="/places/myfavourites" element={<FavouritePlaces />} />
+          <Route
+            path="/places/myplaces"
+            element={<AddedPlaces userId={userId} />}
+          />
+          <Route
+            path="/places/myfavourites"
+            element={<FavouritePlaces userId={userId} />}
+          />
           <Route path="/search" element={<SearchPage />} />
-          <Route path="/admin/users" element={<UsersList />} />
+          <Route path="/admin/users" element={<AdminDashboard />} />
           <Route path="/" element={<Places />} />
-          {/* <Route path="*" element={<Navigate to="/" />} /> */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       );
     } else if (role === "admin") {
@@ -49,7 +55,7 @@ const App = () => {
           <Route path="/places/edit/:placeId" element={<EditPlace />} />
           <Route path="/places/myplaces" element={<AddedPlaces />} />
           <Route path="/places/myfavourites" element={<FavouritePlaces />} />
-          <Route path="/admin/users" element={<UsersList />} />
+          <Route path="/admin/users" element={<AdminDashboard />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/" element={<Places />} />
           <Route path="*" element={<Navigate to="/" />} />

@@ -5,15 +5,9 @@ import { AppProviderContext } from '../../integration/context/appProviderContext
 import AlertMessage from '../shared/AlertMessage';
 import UserPlaces from './UserPlaces';
 
-const FavouritePlaces = () => {
-  //   const classes = useStyles();
-  const { actions, state } = useContext(AppProviderContext);
-  let token = state.token;
-  let decodedToken, userId;
-  if (token) {
-    decodedToken = jwt_decode(token);
-    userId = decodedToken.userId;
-  }
+const FavouritePlaces = ({userId}) => {
+    // const classes = useStyles();
+  const { actions } = useContext(AppProviderContext);
 
   const [favouritePlaces, setFavouritePlaces] = useState(null);
 
