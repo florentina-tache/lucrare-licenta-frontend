@@ -18,7 +18,7 @@ export const fetchPlaceById = async (dispatch, placeId, token) => {
       payload: { userId: responseData.userId, token: responseData.token },
     });
     return { place: responseData.place };
-  } catch (err) {}
+  } catch (err) { }
 };
 
 export const fetchUserPlaces = async (dispatch, userId, token, placeType) => {
@@ -41,12 +41,12 @@ export const fetchUserPlaces = async (dispatch, userId, token, placeType) => {
       payload: { userId: responseData.userId, token: responseData.token },
     });
     return { places: responseData.places };
-  } catch (err) {}
+  } catch (err) { }
 };
 
-export const fetchRandomPlace = async (dispatch, token) => {
+export const fetchRandomPlace = async (dispatch, userId, token) => {
   try {
-    const response = await fetch(`${server}api/places/random`, {
+    const response = await fetch(`${server}api/places/random/${userId}`, {
       method: "GET",
       headers: { Authorization: "Bearer " + token },
     });
@@ -61,7 +61,7 @@ export const fetchRandomPlace = async (dispatch, token) => {
       // payload: { userId: responseData.userId, token: responseData.token },
     });
     return { place: responseData.place };
-  } catch (err) {}
+  } catch (err) { }
 };
 
 export const fetchSearchedPlace = async (tag, token) => {
@@ -123,16 +123,19 @@ export const addNewPlace = async (
   dispatch,
   newPlaceDetails,
   userId,
+  placeType,
+  placeId,
   token,
-  placeType
 ) => {
   const { title, description, address, image } = newPlaceDetails;
+  console.log("placeType", placeType)
   try {
     let formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
     formData.append("address", address);
     formData.append("image", image);
+    formData.append("placeId", placeId);
     formData.append("creator", userId);
     const response = await fetch(`${server}api/places/${placeType}`, {
       method: "POST",
@@ -149,7 +152,7 @@ export const addNewPlace = async (
       type: actionTypes.ADD_NEW_PLACE,
     });
     return { message: "Successfully added place", success: true };
-  } catch (err) {}
+  } catch (err) { }
 };
 
 export const updatePlace = async (dispatch, placeDetails, placeId, token) => {
@@ -180,7 +183,7 @@ export const updatePlace = async (dispatch, placeDetails, placeId, token) => {
       type: actionTypes.ADD_NEW_PLACE,
     });
     return { message: "Successfully updated place", success: true };
-  } catch (err) {}
+  } catch (err) { }
 };
 
 export const deletePlace = async (dispatch, placeId, token) => {
@@ -204,5 +207,5 @@ export const deletePlace = async (dispatch, placeId, token) => {
       type: actionTypes.ADD_NEW_PLACE,
     });
     return { message: "Successfully updated place", success: true };
-  } catch (err) {}
+  } catch (err) { }
 };

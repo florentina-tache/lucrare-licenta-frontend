@@ -17,13 +17,13 @@ export const appProviderActions = (dispatch, token) => {
     signUp: (userSignUpDetails) => signUp(dispatch, userSignUpDetails),
     login: (userLoginDetails) => login(dispatch, userLoginDetails),
     fetchPlaceById: (placeId) => fetchPlaceById(dispatch, placeId, token),
-    fetchRandomPlace: () => fetchRandomPlace(dispatch, token),
+    fetchRandomPlace: (userId) => fetchRandomPlace(dispatch, userId, token),
     fetchUserPlaces: (userId, placeType) =>
       fetchUserPlaces(dispatch, userId, token, placeType),
     fetchSearchedPlace: (tag) => fetchSearchedPlace(tag, token),
     fetchLatestPlaces: () => fetchLatestPlaces(token),
-    addNewPlace: (newPlaceDetails, userId, placeType) =>
-      addNewPlace(dispatch, newPlaceDetails, userId, token, placeType),
+    addNewPlace: (newPlaceDetails, userId, placeId = "", placeType) =>
+      addNewPlace(dispatch, newPlaceDetails, userId, placeType, placeId, token),
     logout: () => logout(dispatch),
     updatePlace: (placeDetails, placeId) =>
       updatePlace(dispatch, placeDetails, placeId, token),

@@ -1,33 +1,39 @@
-import React, { useState, useEffect, useContext } from 'react';
-import Moment from 'moment';
-import { makeStyles } from '@material-ui/core/styles';
-import jwt_decode from 'jwt-decode';
-import { useToasts } from 'react-toast-notifications';
+import React, { useState, useEffect, useContext } from "react";
+import Moment from "moment";
+import { makeStyles } from "@material-ui/core/styles";
+import jwt_decode from "jwt-decode";
+import { useToasts } from "react-toast-notifications";
 
-import Place from './Place';
-import Map from './Map';
-import SearchBar from './SearchBar';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import Place from "./Place";
+import Map from "./Map";
+import SearchBar from "./SearchBar";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 
-import { AppProviderContext } from '../../integration/context/appProviderContext';
+import { AppProviderContext } from "../../integration/context/appProviderContext";
 
 const useStyles = makeStyles((theme) => ({
   favouriteButton: {
-    width: '100px',
-    height: '100px',
+    width: "100px",
+    height: "100px",
   },
   favouriteIcon: {
-    width: '100px',
-    height: '100px',
-    display: 'block',
+    width: "100px",
+    height: "100px",
+    display: "block",
   },
   buttonsContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttons: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "30px",
+    marginBottom: "50px",
   },
 }));
 
@@ -37,7 +43,7 @@ const Places = () => {
   const { addToast } = useToasts();
   const classes = useStyles();
 
-  const formatDate = Moment(placeDetails?.date).format('DD-MM-YYYY');
+  const formatDate = Moment(placeDetails?.date).format("DD-MM-YYYY");
 
   let token = state.token;
   let decodedToken, userId;
@@ -49,7 +55,7 @@ const Places = () => {
   const getRandomPlace = async () => {
     let place;
     try {
-      place = await actions.fetchRandomPlace(token);
+      place = await actions.fetchRandomPlace(userId);
     } catch (err) {}
     setPlaceDetails(place.place);
   };
@@ -63,7 +69,7 @@ const Places = () => {
   };
 
   const addPlaceToFavourites = async () => {
-    console.log('userId', userId);
+    console.log("placeId", placeDetails.id, placeDetails._id);
     try {
       const createdPlaceStatus = await actions.addNewPlace(
         {
@@ -73,20 +79,21 @@ const Places = () => {
           image: placeDetails.image,
         },
         userId,
-        'favourites'
+        placeDetails._id,
+        "favourites"
       );
 
-      if(createdPlaceStatus) {
+      if (createdPlaceStatus) {
         const { message, success } = createdPlaceStatus;
 
         addToast(message, {
-          appearance: success ? 'success' : 'error',
+          appearance: success ? "success" : "error",
           autoDismiss: true,
         });
       }
     } catch (err) {
       addToast(err, {
-        appearance: 'error',
+        appearance: "error",
         autoDismiss: true,
       });
     }
@@ -104,27 +111,30 @@ const Places = () => {
               date={formatDate}
             />
           </Grid>
-          <Grid item xs={6} container className={classes.buttonsContainer}>
-            <div>
-              <IconButton
-                aria-label='add to favorites'
-                className={classes.favouriteButton}
-                onClick={() => addPlaceToFavourites()}
-              >
-                <FavoriteIcon className={classes.favouriteIcon} />
-              </IconButton>
-            </div>
-            <div>
-              <IconButton
-                aria-label='add to favorites'
-                className={classes.favouriteButton}
-                onClick={() => displayAnotherPlace()}
-              >
-                <CloseIcon className={classes.favouriteIcon} />
-              </IconButton>
-            </div>
-            {console.log(placeDetails)}
-            <Map center={placeDetails.location} />
+          <Grid item xs={6} className={classes.buttonsContainer}>
+            <Grid container className={classes.buttons}>
+              <div>
+                <IconButton
+                  aria-label="add to favorites"
+                  className={classes.favouriteButton}
+                  onClick={() => addPlaceToFavourites()}
+                >
+                  <FavoriteIcon className={classes.favouriteIcon} />
+                </IconButton>
+              </div>
+              <div>
+                <IconButton
+                  aria-label="add to favorites"
+                  className={classes.favouriteButton}
+                  onClick={() => displayAnotherPlace()}
+                >
+                  <CloseIcon className={classes.favouriteIcon} />
+                </IconButton>
+              </div>
+            </Grid>
+            <Grid container className={classes.buttonsContainer}>
+              <Map center={placeDetails.location} />
+            </Grid>
           </Grid>
         </Grid>
       )}

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from "react";
 import {
   Container,
   Typography,
@@ -8,20 +8,20 @@ import {
   Link,
   CardContent,
   CircularProgress,
-} from '@material-ui/core';
-import ImageUpload from '../shared/ImageUpload';
-import { makeStyles } from '@material-ui/core/styles';
-import Input from '../shared/Input';
+} from "@material-ui/core";
+import ImageUpload from "../shared/ImageUpload";
+import { makeStyles } from "@material-ui/core/styles";
+import Input from "../shared/Input";
 import {
   VALIDATE_EMAIL,
   VALIDATE_PASSWORD,
   VALIDATE_REQUIRED,
   VALIDATE_IDENTICAL,
-} from '../../helpers/utils/validators';
-import { useForm } from '../../helpers/hooks/form-hook';
-import { useToasts } from 'react-toast-notifications';
-import { AppProviderContext } from '../../integration/context/appProviderContext';
-import { useNavigate } from 'react-router-dom';
+} from "../../helpers/utils/validators";
+import { useForm } from "../../helpers/hooks/form-hook";
+import { useToasts } from "react-toast-notifications";
+import { AppProviderContext } from "../../integration/context/appProviderContext";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -29,12 +29,12 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     marginTop: theme.spacing(3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   form: {
-    width: '100%',
+    width: "100%",
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -50,23 +50,23 @@ const SignUp = () => {
   const [formState, inputHandler] = useForm(
     {
       firstName: {
-        value: '',
+        value: "",
         isValid: false,
       },
       lastName: {
-        value: '',
+        value: "",
         isValid: false,
       },
       email: {
-        value: '',
+        value: "",
         isValid: false,
       },
       password: {
-        value: '',
+        value: "",
         isValid: false,
       },
       confirmPassword: {
-        value: '',
+        value: "",
         isValid: false,
       },
       image: {
@@ -84,16 +84,16 @@ const SignUp = () => {
         sm: 6,
       },
       textField: {
-        autoComplete: 'fname',
-        name: 'firstName',
+        autoComplete: "fname",
+        name: "firstName",
         required: true,
         fullWidth: true,
-        type: 'text',
-        id: 'firstName',
-        label: 'First Name',
+        type: "text",
+        id: "firstName",
+        label: "First Name",
         autoFocus: true,
         error: false,
-        errorText: 'Please enter your First Name',
+        errorText: "Please enter your First Name",
         validators: [VALIDATE_REQUIRED()],
       },
     },
@@ -103,16 +103,16 @@ const SignUp = () => {
         sm: 6,
       },
       textField: {
-        autoComplete: 'lname',
-        name: 'lastName',
+        autoComplete: "lname",
+        name: "lastName",
         required: true,
         fullWidth: true,
-        type: 'text',
-        id: 'lastName',
-        label: 'Last Name',
+        type: "text",
+        id: "lastName",
+        label: "Last Name",
         autoFocus: true,
         error: false,
-        errorText: 'Please enter your Last Name',
+        errorText: "Please enter your Last Name",
         validators: [VALIDATE_REQUIRED()],
       },
     },
@@ -122,16 +122,16 @@ const SignUp = () => {
         sm: 12,
       },
       textField: {
-        id: 'email',
-        label: 'Email Address',
-        name: 'email',
-        type: 'email',
-        autoComplete: 'email',
+        id: "email",
+        label: "Email Address",
+        name: "email",
+        type: "email",
+        autoComplete: "email",
         required: true,
         fullWidth: true,
         autoFocus: false,
         error: false,
-        errorText: 'Please enter a valid email.',
+        errorText: "Please enter a valid email.",
         validators: [VALIDATE_REQUIRED(), VALIDATE_EMAIL()],
       },
     },
@@ -141,17 +141,17 @@ const SignUp = () => {
         sm: 12,
       },
       textField: {
-        name: 'password',
-        label: 'Password',
-        type: 'password',
-        id: 'password',
-        autoComplete: 'current-password',
+        name: "password",
+        label: "Password",
+        type: "password",
+        id: "password",
+        autoComplete: "current-password",
         required: true,
         fullWidth: true,
         autoFocus: false,
         error: false,
         errorText:
-          'Your password should be at least 8 characters, contain 1 uppercase and 1 lowercase.',
+          "Your password should be at least 8 characters, contain 1 uppercase and 1 lowercase.",
         validators: [VALIDATE_REQUIRED(), VALIDATE_PASSWORD()],
       },
     },
@@ -161,16 +161,16 @@ const SignUp = () => {
         sm: 12,
       },
       textField: {
-        name: 'password',
-        label: 'Confirm Password',
-        type: 'password',
-        id: 'confirmPassword',
-        autoComplete: 'confirm-password',
+        name: "password",
+        label: "Confirm Password",
+        type: "password",
+        id: "confirmPassword",
+        autoComplete: "confirm-password",
         required: true,
         fullWidth: true,
         autoFocus: false,
         error: false,
-        errorText: 'Passwords do not match.',
+        errorText: "Passwords do not match.",
         validators: [
           VALIDATE_REQUIRED(),
           VALIDATE_IDENTICAL(formState.inputs.password.value),
@@ -199,34 +199,34 @@ const SignUp = () => {
         const { message, success } = signInStatus;
 
         addToast(message, {
-          appearance: success ? 'success' : 'error',
+          appearance: success ? "success" : "error",
           autoDismiss: true,
         });
 
         if (success) {
-          navigate('/');
+          navigate("/");
         }
       } else
-        addToast('Unknown error occured', {
-          appearance: 'error',
+        addToast("Unknown error occured", {
+          appearance: "error",
           autoDismiss: true,
         });
       {
       }
     } catch (err) {
       addToast(err, {
-        appearance: 'error',
+        appearance: "error",
         autoDismiss: true,
       });
     }
   };
 
   return (
-    <Container component='main' maxWidth='xs' data-test='sign-up-container'>
-      <Card variant='outlined' className={classes.card}>
+    <Container component="main" maxWidth="xs" data-test="sign-up-container">
+      <Card variant="outlined" className={classes.card}>
         <CardContent>
           <div className={classes.paper}>
-            <Typography component='h1' variant='h5'>
+            <Typography component="h1" variant="h5">
               Sign up
             </Typography>
             <form className={classes.form} onSubmit={submitHandler}>
@@ -240,8 +240,8 @@ const SignUp = () => {
                       sm={field.grid.sm}
                     >
                       <Input
-                        data-test='input'
-                        variant='outlined'
+                        data-test="input"
+                        variant="outlined"
                         required={field.textField.required}
                         fullWidth={field.textField.fullWidth}
                         id={field.textField.id}
@@ -259,30 +259,35 @@ const SignUp = () => {
                 })}
               </Grid>
               <ImageUpload
-                id='image'
+                id="image"
                 onInput={inputHandler}
-                errorText='Please provide an image.'
+                errorText="Please provide an image."
                 width={150}
                 height={100}
               />
               <Button
-                data-test='submit-button'
-                type='submit'
+                data-test="submit-button"
+                type="submit"
                 fullWidth
-                variant='contained'
-                color='primary'
+                variant="contained"
+                color="primary"
                 className={classes.submit}
                 disabled={!formState.isValid}
               >
                 {!isLoading ? (
-                  'Sign Up'
+                  "Sign Up"
                 ) : (
-                  <CircularProgress color='inherit' size='1.5rem' />
+                  <CircularProgress color="inherit" size="1.5rem" />
                 )}
               </Button>
-              <Grid container justify='center'>
+              <Grid container justify="center">
                 <Grid item>
-                  <Link href={isLoading ? '#' : '/signin'} variant='body2'>
+                  <Link
+                    onClick={() => {
+                      navigate("/login");
+                    }}
+                    variant="body2"
+                  >
                     Already have an account?
                   </Link>
                 </Grid>

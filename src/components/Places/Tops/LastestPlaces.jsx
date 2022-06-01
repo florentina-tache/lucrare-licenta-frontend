@@ -3,8 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { AppProviderContext } from "../../../integration/context/appProviderContext";
 
 import PlaceCard from "../helperComponents/PlaceCard";
-
-// import itemData from './itemData';
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,30 +13,12 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper,
   },
-  imageList: {
-    width: 1000,
-  },
-  icon: {
-    color: "rgba(255, 255, 255, 0.54)",
-  },
-  modal: {
-    position: "absolute",
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: "1px solid #000",
-    borderRadius: 5,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(1),
-    top: "40%",
-    left: "40%",
+  subtitle: {
+    margin: "20px 0 20px",
   },
 }));
 
-const LatestPlaces = ({
-  itemData,
-  setDeletedAPlace = () => {},
-  displayButtons = true,
-}) => {
+const LatestPlaces = ({}) => {
   const classes = useStyles();
   const [places, setPlaces] = useState(null);
 
@@ -57,11 +38,20 @@ const LatestPlaces = ({
   }, [places]);
 
   return (
-    <div className={classes.root}>
-      {places?.places && places.places.map((place) => (
-        <PlaceCard item={place}/>
-      ))}
-    </div>
+    <>
+      <Typography
+        component="h1"
+        variant="h5"
+        align="center"
+        className={classes.subtitle}
+      >
+        Last added places
+      </Typography>
+      <div className={classes.root}>
+        {places?.places &&
+          places.places.map((place) => <PlaceCard item={place} />)}
+      </div>
+    </>
   );
 };
 

@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
-import jwt_decode from 'jwt-decode';
-import { AppProviderContext } from '../../integration/context/appProviderContext';
+import React, { useState, useEffect, useContext } from "react";
+import jwt_decode from "jwt-decode";
+import { AppProviderContext } from "../../integration/context/appProviderContext";
 
-import AlertMessage from '../shared/AlertMessage';
-import UserPlaces from './UserPlaces';
+import AlertMessage from "../shared/AlertMessage";
+import UserPlaces from "./UserPlaces";
 
-const FavouritePlaces = ({userId}) => {
-    // const classes = useStyles();
+const FavouritePlaces = ({ userId }) => {
+  // const classes = useStyles();
   const { actions } = useContext(AppProviderContext);
 
   const [favouritePlaces, setFavouritePlaces] = useState(null);
@@ -14,7 +14,7 @@ const FavouritePlaces = ({userId}) => {
   const getFavouritePlaces = async () => {
     let places;
     try {
-      places = await actions.fetchUserPlaces(userId, 'favourites');
+      places = await actions.fetchUserPlaces(userId, "favourites");
     } catch (err) {}
     setFavouritePlaces(places);
   };
@@ -23,14 +23,14 @@ const FavouritePlaces = ({userId}) => {
     getFavouritePlaces();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(favouritePlaces);
-  // }, [favouritePlaces]);
+  useEffect(() => {
+    console.log(favouritePlaces?.places);
+  }, [favouritePlaces]);
 
   return favouritePlaces?.places ? (
     <UserPlaces itemData={favouritePlaces.places} />
   ) : (
-    <AlertMessage text='No places found!' />
+    <AlertMessage text="No places found!" />
   );
 };
 

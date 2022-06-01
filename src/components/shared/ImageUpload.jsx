@@ -1,18 +1,18 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Card, Grid, CardContent } from '@material-ui/core';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import IconButton from '@mui/material/IconButton';
-import Input from './Input';
+import React, { useRef, useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Card, Grid, CardContent } from "@material-ui/core";
+import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import IconButton from "@mui/material/IconButton";
+import Input from "./Input";
 
-import './ImageUpload.css';
+import "./ImageUpload.css";
 
 const useStyles = (props) =>
   makeStyles((theme) => ({
     imageUpload: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
     },
     root: {
       width: props.width,
@@ -20,10 +20,10 @@ const useStyles = (props) =>
       marginTop: theme.spacing(3),
     },
     pickImageText: {
-      marginTop: '25%',
+      marginTop: "25%",
     },
     photoIcon: {
-      marginTop: '25%',
+      marginTop: "25%",
     },
   }));
 
@@ -40,18 +40,18 @@ const ImageUpload = (props) => {
     if (!file) {
       return;
     }
-    if (!previewUrl) {
-      const fileReader = new FileReader();
-      fileReader.onload = () => {
-        setPreviewUrl(fileReader.result);
-      };
-      fileReader.readAsDataURL(file);
-    }
+    // if (!previewUrl) {
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setPreviewUrl(fileReader.result);
+    };
+    fileReader.readAsDataURL(file);
+    // }
   }, [file]);
 
-  // useEffect(() => {
-  //   console.log(previewUrl);
-  // }, [previewUrl]);
+  useEffect(() => {
+    console.log(file);
+  }, [file]);
 
   const pickedHandler = (event) => {
     let pickedFile;
@@ -78,25 +78,25 @@ const ImageUpload = (props) => {
         <Grid item xs={6}>
           <Card
             className={classes.root}
-            justifyContent='center'
-            alignItems='center'
+            justifyContent="center"
+            alignItems="center"
           >
             <input
               id={props.id}
               ref={filePickerRef}
-              style={{ display: 'none' }}
-              type='file'
-              accept='.jpg,.png,.jpeg'
+              style={{ display: "none" }}
+              type="file"
+              accept=".jpg,.png,.jpeg"
               onChange={pickedHandler}
             />
             <CardContent>
               {!previewUrl ? (
-                <Grid container justifyContent='center' alignItems='center'>
+                <Grid container justifyContent="center" alignItems="center">
                   <div className={classes.pickImageText}>Pick an image</div>
                 </Grid>
               ) : (
-                <div className='image-upload__preview'>
-                  <img src={previewUrl} alt='Preview' />
+                <div className="image-upload__preview">
+                  <img src={previewUrl} alt="Preview" />
                 </div>
               )}
             </CardContent>
@@ -106,16 +106,17 @@ const ImageUpload = (props) => {
           <Grid
             className={classes.photoIcon}
             container
-            justifyContent='center'
-            alignItems='center'
+            justifyContent="center"
+            alignItems="center"
           >
-            <label htmlFor='icon-button-file'>
-              {!previewUrl && (
+            <label htmlFor="icon-button-file">
+              {console.log(props.isEdit)}
+              {!props.isEdit && (
                 <IconButton
-                  color='error'
+                  color="error"
                   onClick={pickImageHandler}
-                  aria-label='upload picture'
-                  component='span'
+                  aria-label="upload picture"
+                  component="span"
                 >
                   <PhotoCamera />
                 </IconButton>

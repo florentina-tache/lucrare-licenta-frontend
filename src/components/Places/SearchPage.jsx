@@ -11,18 +11,8 @@ import { AppProviderContext } from "../../integration/context/appProviderContext
 import LatestPlaces from "./Tops/LastestPlaces";
 
 const useStyles = makeStyles((theme) => ({
-  favouriteButton: {
-    width: "100px",
-    height: "100px",
-  },
-  favouriteIcon: {
-    width: "100px",
-    height: "100px",
-    display: "block",
-  },
-  buttonsContainer: {
-    justifyContent: "center",
-    alignItems: "center",
+  search: {
+    marginTop: "30px",
   },
 }));
 
@@ -58,7 +48,10 @@ const SearchPage = () => {
   return (
     <>
       <LatestPlaces />
-      <SearchBar getQuery={getQuery} />
+      <div className={classes.search}>
+        <SearchBar getQuery={getQuery} />
+      </div>
+
       {places?.place ? (
         <UserPlaces itemData={places.place} displayButtons={false} />
       ) : (

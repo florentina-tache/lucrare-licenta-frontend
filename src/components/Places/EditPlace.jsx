@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
-import jwt_decode from 'jwt-decode';
+import React, { useState, useEffect, useContext } from "react";
+import jwt_decode from "jwt-decode";
 
-import { makeStyles } from '@material-ui/core/styles';
-import { VALIDATE_REQUIRED } from '../../helpers/utils/validators';
-import { useForm } from '../../helpers/hooks/form-hook';
-import { useToasts } from 'react-toast-notifications';
-import { AppProviderContext } from '../../integration/context/appProviderContext';
-import { server } from '../../helpers/utils/constants';
-import { useParams } from 'react-router-dom';
+import { makeStyles } from "@material-ui/core/styles";
+import { VALIDATE_REQUIRED } from "../../helpers/utils/validators";
+import { useForm } from "../../helpers/hooks/form-hook";
+import { useToasts } from "react-toast-notifications";
+import { AppProviderContext } from "../../integration/context/appProviderContext";
+import { server } from "../../helpers/utils/constants";
+import { useParams } from "react-router-dom";
 
-import Input from '../shared/Input';
+import Input from "../shared/Input";
 import {
   Container,
   Typography,
@@ -18,8 +18,8 @@ import {
   Grid,
   CardContent,
   CircularProgress,
-} from '@material-ui/core';
-import ImageUpload from '../shared/ImageUpload';
+} from "@material-ui/core";
+import ImageUpload from "../shared/ImageUpload";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -27,12 +27,12 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     marginTop: theme.spacing(3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   form: {
-    width: '100%',
+    width: "100%",
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -57,15 +57,15 @@ const EditPlace = () => {
   const [formState, inputHandler, setFormData] = useForm(
     {
       title: {
-        value: '',
+        value: "",
         isValid: false,
       },
       description: {
-        value: '',
+        value: "",
         isValid: false,
       },
       address: {
-        value: '',
+        value: "",
         isValid: false,
       },
     },
@@ -76,7 +76,7 @@ const EditPlace = () => {
     let place;
     try {
       place = await actions.fetchPlaceById(placeId);
-      console.log('place', place);
+      console.log("place", place);
     } catch (err) {}
     setPlaceDetails(place.place);
     setFormData(
@@ -123,16 +123,16 @@ const EditPlace = () => {
         sm: 12,
       },
       textField: {
-        autoComplete: 'title',
-        name: 'title',
+        autoComplete: "title",
+        name: "title",
         required: true,
         fullWidth: true,
-        type: 'text',
-        id: 'title',
-        label: 'Title',
+        type: "text",
+        id: "title",
+        label: "Title",
         autoFocus: true,
         error: false,
-        errorText: 'Please enter a title',
+        errorText: "Please enter a title",
         validators: [VALIDATE_REQUIRED()],
       },
     },
@@ -142,16 +142,16 @@ const EditPlace = () => {
         sm: 12,
       },
       textField: {
-        autoComplete: 'description',
-        name: 'description',
+        autoComplete: "description",
+        name: "description",
         required: true,
         fullWidth: true,
-        type: 'text',
-        id: 'description',
-        label: 'Description',
+        type: "text",
+        id: "description",
+        label: "Description",
         autoFocus: true,
         error: false,
-        errorText: 'Please enter a description',
+        errorText: "Please enter a description",
         validators: [VALIDATE_REQUIRED()],
       },
     },
@@ -161,16 +161,16 @@ const EditPlace = () => {
         sm: 12,
       },
       textField: {
-        id: 'address',
-        label: 'Address',
-        name: 'address',
-        type: 'text',
-        autoComplete: 'address',
+        id: "address",
+        label: "Address",
+        name: "address",
+        type: "text",
+        autoComplete: "address",
         required: true,
         fullWidth: true,
         autoFocus: false,
         error: false,
-        errorText: 'Please enter an address.',
+        errorText: "Please enter an address.",
         validators: [VALIDATE_REQUIRED()],
       },
     },
@@ -192,22 +192,22 @@ const EditPlace = () => {
       const { message, success } = createdPlaceStatus;
 
       addToast(message, {
-        appearance: success ? 'success' : 'error',
+        appearance: success ? "success" : "error",
         autoDismiss: true,
       });
     } catch (err) {
       addToast(err, {
-        appearance: 'error',
+        appearance: "error",
         autoDismiss: true,
       });
     }
   };
   return (
-    <Container component='main' maxWidth='sm' data-test='sign-up-container'>
-      <Card variant='outlined' className={classes.card}>
+    <Container component="main" maxWidth="sm" data-test="sign-up-container">
+      <Card variant="outlined" className={classes.card}>
         <CardContent>
           <div className={classes.paper}>
-            <Typography component='h1' variant='h5'>
+            <Typography component="h1" variant="h5">
               Add a new place
             </Typography>
             <form className={classes.form} onSubmit={submitHandler}>
@@ -222,8 +222,8 @@ const EditPlace = () => {
                     >
                       {/* {console.log(formState.inputs[field.textField.id].value)} */}
                       <Input
-                        data-test='input'
-                        variant='outlined'
+                        data-test="input"
+                        variant="outlined"
                         required={field.textField.required}
                         fullWidth={field.textField.fullWidth}
                         id={field.textField.id}
@@ -243,20 +243,21 @@ const EditPlace = () => {
               </Grid>
               {formState?.inputs?.image?.value && (
                 <ImageUpload
-                  id='image'
+                  id="image"
                   onInput={inputHandler}
-                  errorText='Please provide an image.'
+                  errorText="Please provide an image."
                   width={250}
                   height={200}
                   imageUrl={server + formState?.inputs?.image?.value}
+                  isEdit={true}
                 />
               )}
               <Button
-                data-test='submit-button'
-                type='submit'
+                data-test="submit-button"
+                type="submit"
                 fullWidth
-                variant='contained'
-                color='primary'
+                variant="contained"
+                color="primary"
                 className={classes.submit}
                 disabled={!formState.isValid}
               >

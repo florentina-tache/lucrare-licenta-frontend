@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-around",
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper,
+    marginTop: "20px",
   },
   imageList: {
     width: 1000,

@@ -1,8 +1,7 @@
-import React, { createContext, useReducer } from 'react';
-import { AuthContext } from './authContext';
-import { appProviderReducer } from '../reducers/appProvider';
-import { appProviderActions } from '../actions/appProvider';
-import { initialState } from './initialState';
+import React, { createContext, useReducer } from "react";
+import { appProviderReducer } from "../reducers/appProvider";
+import { appProviderActions } from "../actions/appProvider";
+import { initialState } from "./initialState";
 
 export const AppProviderContext = createContext();
 
