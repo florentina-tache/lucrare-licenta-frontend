@@ -44,28 +44,24 @@ export const fetchUserPlaces = async (dispatch, userId, token, placeType) => {
   } catch (err) { }
 };
 
-export const fetchRandomPlace = async (dispatch, userId, token) => {
+export const fetchRandomPlace = async (placeId, userId, token) => {
   try {
-    const response = await fetch(`${server}api/places/random/${userId}`, {
+    const response = await fetch(`${server}api/places/random/${userId}/${placeId}`, {
       method: "GET",
       headers: { Authorization: "Bearer " + token },
     });
 
     const responseData = await response.json();
 
-    // if (response.status !== 200) {
-    //   return { ...responseData, success: false };
-    // }
-    dispatch({
-      type: actionTypes.GET_PLACES_BY_USER_ID,
-      // payload: { userId: responseData.userId, token: responseData.token },
-    });
+    if (response.status === 404) {
+      return { ...responseData, success: false };
+    }
     return { place: responseData.place };
   } catch (err) { }
 };
 
 export const fetchSearchedPlace = async (tag, token) => {
-  console.log("tag", JSON.stringify({ tag }));
+  // console.log("tag", JSON.stringify({ tag }));
   try {
     const response = await fetch(`${server}api/places/search`, {
       method: "POST",
@@ -104,13 +100,26 @@ export const fetchLatestPlaces = async (token) => {
 
     const responseData = await response.json();
 
-    // if (response.status !== 200) {
-    //   return { ...responseData, success: false };
-    // }
-    // dispatch({
-    //   type: actionTypes.GET_PLACES_BY_USER_ID,
-    //   // payload: { userId: responseData.userId, token: responseData.token },
-    // });
+    console.log("responseData", responseData);
+
+    return { places: responseData.places };
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const fetchLikedPlaces = async (token) => {
+  try {
+    const response = await fetch(`${server}api/places/liked`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-type": "application/json",
+      },
+    });
+
+    const responseData = await response.json();
+
     console.log("responseData", responseData);
 
     return { places: responseData.places };
@@ -120,15 +129,14 @@ export const fetchLatestPlaces = async (token) => {
 };
 
 export const addNewPlace = async (
-  dispatch,
   newPlaceDetails,
-  userId,
   placeType,
   placeId,
+  userId,
   token,
 ) => {
   const { title, description, address, image } = newPlaceDetails;
-  console.log("placeType", placeType)
+  console.log("placeType", placeType, userId)
   try {
     let formData = new FormData();
     formData.append("title", title);
@@ -148,9 +156,6 @@ export const addNewPlace = async (
       return { ...responseData, success: false };
     }
 
-    dispatch({
-      type: actionTypes.ADD_NEW_PLACE,
-    });
     return { message: "Successfully added place", success: true };
   } catch (err) { }
 };
@@ -173,7 +178,6 @@ export const updatePlace = async (dispatch, placeDetails, placeId, token) => {
     });
 
     const responseData = await response.json();
-    console.log(responseData);
 
     if (response.status !== 200) {
       return { ...responseData, success: false };

@@ -1,8 +1,8 @@
-import { getTokenFromStorage } from "../../helpers/utils/utilFunctions";
+import { getTokenFromStorage, getUserIdFromToken } from "../../helpers/utils/utilFunctions";
 
 export const initialState = {
   token: getTokenFromStorage(),
-  userId: null,
-  login: () => {},
-  logout: () => {},
+  userId: getUserIdFromToken(),
+  login: () => { },
+  logout: () => { },
 };

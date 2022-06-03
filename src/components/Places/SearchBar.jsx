@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchBar({getQuery = () => {}}) {
+export default function SearchBar({ getQuery = () => { } }) {
   const classes = useStyles();
   const [searchValue, setSearchValue] = useState(null);
   const { state, actions } = useContext(AppProviderContext);

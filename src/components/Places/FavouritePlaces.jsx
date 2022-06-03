@@ -15,7 +15,7 @@ const FavouritePlaces = ({ userId }) => {
     let places;
     try {
       places = await actions.fetchUserPlaces(userId, "favourites");
-    } catch (err) {}
+    } catch (err) { }
     setFavouritePlaces(places);
   };
 
@@ -23,9 +23,9 @@ const FavouritePlaces = ({ userId }) => {
     getFavouritePlaces();
   }, []);
 
-  useEffect(() => {
-    console.log(favouritePlaces?.places);
-  }, [favouritePlaces]);
+  // useEffect(() => {
+  //   console.log(favouritePlaces?.places);
+  // }, [favouritePlaces]);
 
   return favouritePlaces?.places ? (
     <UserPlaces itemData={favouritePlaces.places} />

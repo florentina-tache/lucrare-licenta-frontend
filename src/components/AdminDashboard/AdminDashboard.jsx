@@ -50,9 +50,9 @@ const AdminDashboard = () => {
     }
   }, [isModalOpen]);
 
-  useEffect(() => {
-    console.log(users);
-  }, [users]);
+  // useEffect(() => {
+  //   console.log(users);
+  // }, [users]);
 
   const getUserAction = (userId, action) => {
     setUserId(userId);

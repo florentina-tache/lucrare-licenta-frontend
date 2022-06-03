@@ -76,8 +76,7 @@ const EditPlace = () => {
     let place;
     try {
       place = await actions.fetchPlaceById(placeId);
-      console.log("place", place);
-    } catch (err) {}
+    } catch (err) { }
     setPlaceDetails(place.place);
     setFormData(
       {

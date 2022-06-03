@@ -9,6 +9,7 @@ import UserPlaces from "./UserPlaces";
 
 import { AppProviderContext } from "../../integration/context/appProviderContext";
 import LatestPlaces from "./Tops/LastestPlaces";
+import TopPlaces from "./Tops/TopPlaces";
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -33,21 +34,22 @@ const SearchPage = () => {
     try {
       fetchedPlaces = await actions.fetchSearchedPlace(query);
       setPlaces(fetchedPlaces);
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const getQuery = (query) => {
-    console.log(query);
+    // console.log(query);
     getPlaces(query);
   };
 
-  useEffect(() => {
-    console.log(places);
-  }, places);
+  // useEffect(() => {
+  //   console.log(places);
+  // }, places);
 
   return (
     <>
       <LatestPlaces />
+      <TopPlaces />
       <div className={classes.search}>
         <SearchBar getQuery={getQuery} />
       </div>

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LatestPlaces = ({}) => {
+const LatestPlaces = ({ }) => {
   const classes = useStyles();
   const [places, setPlaces] = useState(null);
 
@@ -33,9 +33,9 @@ const LatestPlaces = ({}) => {
     fetchLatestPlaces();
   }, []);
 
-  useEffect(() => {
-    console.log("ceva", places?.places);
-  }, [places]);
+  // useEffect(() => {
+  //   console.log("ceva", places?.places);
+  // }, [places]);
 
   return (
     <>
@@ -49,7 +49,7 @@ const LatestPlaces = ({}) => {
       </Typography>
       <div className={classes.root}>
         {places?.places &&
-          places.places.map((place) => <PlaceCard item={place} />)}
+          places.places.map((place) => <PlaceCard key={`${place.image}${Math.random()}`} item={place} />)}
       </div>
     </>
   );

@@ -49,9 +49,9 @@ const ImageUpload = (props) => {
     // }
   }, [file]);
 
-  useEffect(() => {
-    console.log(file);
-  }, [file]);
+  // useEffect(() => {
+  //   console.log(file);
+  // }, [file]);
 
   const pickedHandler = (event) => {
     let pickedFile;
@@ -110,7 +110,6 @@ const ImageUpload = (props) => {
             alignItems="center"
           >
             <label htmlFor="icon-button-file">
-              {console.log(props.isEdit)}
               {!props.isEdit && (
                 <IconButton
                   color="error"

@@ -143,7 +143,6 @@ const NewPlace = () => {
           address: formState.inputs.address.value,
           image: formState.inputs.image.value,
         },
-        userId,
         "added"
       );
 

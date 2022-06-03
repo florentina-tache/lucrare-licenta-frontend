@@ -30,6 +30,8 @@ const useStyles = makeStyles((theme) => ({
   },
   imageList: {
     width: 1000,
+    // bottom: '100px',
+    // height: '100%'
   },
   icon: {
     color: "rgba(255, 255, 255, 0.54)",
@@ -49,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 const UserPlaces = ({
   itemData,
-  setDeletedAPlace = () => {},
+  setDeletedAPlace = () => { },
   displayButtons = true,
 }) => {
   const classes = useStyles();
@@ -72,7 +74,6 @@ const UserPlaces = ({
   };
 
   const onDeleteHandler = async () => {
-    console.log(actions);
     await actions.deletePlace(placeToBeDeleted.id);
     setIsModalOpen(false);
     setDeletedAPlace(true);

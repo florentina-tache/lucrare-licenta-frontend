@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import jwt_decode from 'jwt-decode';
-import { AppProviderContext } from '../../integration/context/appProviderContext';
+import React, { useState, useEffect, useContext } from "react";
+import jwt_decode from "jwt-decode";
+import { AppProviderContext } from "../../integration/context/appProviderContext";
 
-import UserPlaces from './UserPlaces';
-import AlertMessage from '../shared/AlertMessage';
+import UserPlaces from "./UserPlaces";
+import AlertMessage from "../shared/AlertMessage";
 
-const AddedPlaces = ({userId}) => {
+const AddedPlaces = ({ userId }) => {
   const { actions } = useContext(AppProviderContext);
 
   const [addedPlaces, setAddedPlaces] = useState(null);
@@ -14,8 +14,7 @@ const AddedPlaces = ({userId}) => {
   const getAddedPlaces = async () => {
     let places;
     try {
-      places = await actions.fetchUserPlaces(userId, 'added');
-      console.log('err', places);
+      places = await actions.fetchUserPlaces(userId, "added");
     } catch (err) {}
     setAddedPlaces(places);
     setDeletedAPlace(false);
@@ -37,7 +36,7 @@ const AddedPlaces = ({userId}) => {
       setDeletedAPlace={setDeletedAPlace}
     />
   ) : (
-    <AlertMessage text='No places found!' />
+    <AlertMessage text="No places found!" />
   );
 };
 

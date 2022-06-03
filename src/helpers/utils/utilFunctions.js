@@ -33,6 +33,15 @@ export const getTokenFromStorage = () => {
   return tokenDetails.token;
 };
 
+export const getUserIdFromToken = () => {
+  const userData = localStorage.getItem('userData');
+  if (!userData) {
+    return null;
+  }
+  const tokenDetails = JSON.parse(userData);
+  return tokenDetails.userId;
+};
+
 export const runLogoutTimer = (logoutFn, timer) => {
   setTimeout(() => {
     logoutFn();

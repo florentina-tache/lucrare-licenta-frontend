@@ -14,6 +14,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { AppProviderContext } from "../../integration/context/appProviderContext";
+import AlertMessage from "../shared/AlertMessage";
 
 const useStyles = makeStyles((theme) => ({
   favouriteButton: {
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 const Places = () => {
   const { state, actions } = useContext(AppProviderContext);
   const [placeDetails, setPlaceDetails] = useState(null);
+  const [noPlaceFound, setNoPlaceFound] = useState(false);
   const { addToast } = useToasts();
   const classes = useStyles();
 
@@ -52,12 +54,23 @@ const Places = () => {
     userId = decodedToken.userId;
   }
 
-  const getRandomPlace = async () => {
+  const getRandomPlace = async (placeId = "1") => {
     let place;
     try {
-      place = await actions.fetchRandomPlace(userId);
-    } catch (err) {}
-    setPlaceDetails(place.place);
+      place = await actions.fetchRandomPlace(placeId);
+    } catch (err) { }
+    if (!place || place.succes === false || place.message === "Did not find any new places.") {
+      setNoPlaceFound(true)
+      setPlaceDetails(null)
+    } else {
+      setPlaceDetails(place.place);
+    }
+  };
+
+  const closedPlace = async (placeId) => {
+    try {
+      return await actions.updatePlaceToNotDisplay(placeId);
+    } catch (err) { }
   };
 
   useEffect(() => {
@@ -65,11 +78,10 @@ const Places = () => {
   }, []);
 
   const displayAnotherPlace = () => {
-    getRandomPlace();
+    getRandomPlace(placeDetails._id);
   };
 
   const addPlaceToFavourites = async () => {
-    console.log("placeId", placeDetails.id, placeDetails._id);
     try {
       const createdPlaceStatus = await actions.addNewPlace(
         {
@@ -78,9 +90,8 @@ const Places = () => {
           address: placeDetails.address,
           image: placeDetails.image,
         },
-        userId,
-        placeDetails._id,
-        "favourites"
+        "favourites",
+        placeDetails._id
       );
 
       if (createdPlaceStatus) {
@@ -97,6 +108,7 @@ const Places = () => {
         autoDismiss: true,
       });
     }
+    getRandomPlace(); //?wait
   };
 
   return (
@@ -137,6 +149,9 @@ const Places = () => {
             </Grid>
           </Grid>
         </Grid>
+      )}
+      {noPlaceFound && (
+        <AlertMessage text={"No more places to display!"} />
       )}
     </>
   );

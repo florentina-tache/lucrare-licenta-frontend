@@ -14,7 +14,7 @@ export const fetchUsers = async (token) => {
       return { ...responseData, success: false };
     }
     return responseData.users;
-  } catch (err) {}
+  } catch (err) { }
 };
 
 export const deleteUser = async (userId, token) => {
@@ -29,5 +29,29 @@ export const deleteUser = async (userId, token) => {
       return { ...responseData, success: false };
     }
     return { message: "Successfully deleted place", success: true };
-  } catch (err) {}
+  } catch (err) { }
+};
+
+export const updatePlaceToNotDisplay = async (userId, placeId, token) => {
+  try {
+    const response = await fetch(`${server}api/users/places`, {
+      method: "PATCH",
+      body: JSON.stringify({ userId, placeId }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      }
+    });
+    const responseData = await response.json();
+
+    if (response.status !== 200) {
+      return { ...responseData, success: false };
+    }
+
+    if (response.status === 404) {
+      alert()
+    }
+
+    return { message: "Successfully updated user places", success: true };
+  } catch (err) { }
 };
