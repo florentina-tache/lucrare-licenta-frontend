@@ -3,6 +3,7 @@ import Moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import jwt_decode from "jwt-decode";
 import { useToasts } from "react-toast-notifications";
+import { formatDate } from "../../helpers/utils/utilFunctions";
 
 import Place from "./Place";
 import Map from "./Map";
@@ -16,7 +17,15 @@ import CloseIcon from "@material-ui/icons/Close";
 import { AppProviderContext } from "../../integration/context/appProviderContext";
 import AlertMessage from "../shared/AlertMessage";
 
+import "./places.css"
+
 const useStyles = makeStyles((theme) => ({
+  root: {
+    '@media(minWidth: 780px)': {
+      display: 'inline',
+      backgroundColor: 'red',
+    }
+  },
   favouriteButton: {
     width: "100px",
     height: "100px",
@@ -45,7 +54,8 @@ const Places = () => {
   const { addToast } = useToasts();
   const classes = useStyles();
 
-  const formatDate = Moment(placeDetails?.date).format("DD-MM-YYYY");
+  // const formatDate = Moment(placeDetails?.date).format("DD-MM-YYYY");
+  const formatedDate = formatDate(placeDetails?.date)
 
   let token = state.token;
   let decodedToken, userId;
@@ -59,6 +69,7 @@ const Places = () => {
     try {
       place = await actions.fetchRandomPlace(placeId);
     } catch (err) { }
+    console.log("place", place)
     if (!place || place.succes === false || place.message === "Did not find any new places.") {
       setNoPlaceFound(true)
       setPlaceDetails(null)
@@ -114,13 +125,13 @@ const Places = () => {
   return (
     <>
       {placeDetails && (
-        <Grid container>
-          <Grid item xs={6}>
+        <Grid container className={"root"}>
+          <Grid item xs={6} className={"card"}>
             <Place
               title={placeDetails.title}
               image={placeDetails.image}
               description={placeDetails.description}
-              date={formatDate}
+              date={formatedDate}
             />
           </Grid>
           <Grid item xs={6} className={classes.buttonsContainer}>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { VALIDATE_REQUIRED } from "../../helpers/utils/validators";
@@ -46,6 +47,7 @@ const EditPlace = () => {
   const { addToast } = useToasts();
   const placeId = useParams().placeId;
   const [placeDetails, setPlaceDetails] = useState(null);
+  let navigate = useNavigate();
 
   let token = state.token;
   let decodedToken, userId;
@@ -200,6 +202,7 @@ const EditPlace = () => {
         autoDismiss: true,
       });
     }
+    navigate("/places/myplaces");
   };
   return (
     <Container component="main" maxWidth="sm" data-test="sign-up-container">

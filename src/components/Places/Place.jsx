@@ -45,18 +45,6 @@ const Place = ({
   return (
     <Card className={classes.root}>
       <CardHeader
-        avatar={
-          <Avatar
-            aria-label="recipe"
-            className={classes.avatar}
-            src={imageUrl}
-          />
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
         title={title}
         subheader={`Creation date: ${date}`}
       />

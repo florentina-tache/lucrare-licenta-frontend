@@ -28,7 +28,7 @@ export const deleteUser = async (userId, token) => {
     if (response.status !== 200) {
       return { ...responseData, success: false };
     }
-    return { message: "Successfully deleted place", success: true };
+    return { message: "Successfully deleted user", success: true };
   } catch (err) { }
 };
 
@@ -53,5 +53,27 @@ export const updatePlaceToNotDisplay = async (userId, placeId, token) => {
     }
 
     return { message: "Successfully updated user places", success: true };
+  } catch (err) { }
+};
+
+export const deletePlaceFromFavourites = async (placeId, token) => {
+  try {
+    const response = await fetch(`${server}api/users/favourites/${placeId}`, {
+      method: "DELETE",
+      body: null,
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    const responseData = await response.json();
+
+    console.log("responseData", responseData);
+
+    if (response.status !== 200) {
+      return { ...responseData, success: false };
+    }
+
+    return { message: "Successfully deleted place in favourites", success: true };
   } catch (err) { }
 };

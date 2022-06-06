@@ -49,7 +49,7 @@ const TopPlaces = ({ }) => {
       </Typography>
       <div className={classes.root}>
         {places?.places &&
-          places.places.map((place) => <PlaceCard key={`${place.image}${Math.random()}`} item={place} />)}
+          places.places.map((place) => <PlaceCard key={`${place.image}${Date.now()}`} item={place} />)}
       </div>
     </>
   );

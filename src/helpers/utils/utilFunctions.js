@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import Moment from "moment";
 
 export const updateState = (state, newState) => {
   return _.merge(state, newState);
@@ -58,3 +59,7 @@ export const autoLogout = (logoutFn) => {
   const timer = new Date(expirationDate).getTime() - currentDate.getTime();
   runLogoutTimer(logoutFn, timer);
 };
+
+export const formatDate = (date) => {
+  return Moment(date).format("DD-MM-YYYY");
+}

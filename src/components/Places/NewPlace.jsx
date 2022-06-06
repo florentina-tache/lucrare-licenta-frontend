@@ -1,9 +1,10 @@
 import React, { useEffect, useContext } from "react";
 import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Input from "../shared/Input";
-import { VALIDATE_REQUIRED } from "../../helpers/utils/validators";
+import { VALIDATE_REQUIRED, VALIDATE_MINLENGTH } from "../../helpers/utils/validators";
 import {
   Container,
   Typography,
@@ -41,6 +42,8 @@ const NewPlace = () => {
   const classes = useStyles();
   const { actions, state } = useContext(AppProviderContext);
   const { addToast } = useToasts();
+  let navigate = useNavigate();
+
   let token = state.token;
   let decodedToken, userId;
   if (token) {
@@ -107,8 +110,8 @@ const NewPlace = () => {
         label: "Description",
         autoFocus: true,
         error: false,
-        errorText: "Please enter a description",
-        validators: [VALIDATE_REQUIRED()],
+        errorText: "Please enter a description of minimum 5 characters",
+        validators: [VALIDATE_REQUIRED(), VALIDATE_MINLENGTH(5)],
       },
     },
     {
@@ -160,6 +163,7 @@ const NewPlace = () => {
         autoDismiss: true,
       });
     }
+    navigate("/places/myplaces");
   };
   return (
     <Container component="main" maxWidth="sm" data-test="sign-up-container">

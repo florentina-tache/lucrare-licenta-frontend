@@ -89,7 +89,7 @@ const AdminDashboard = () => {
           Go back
         </IconButton>
       )}
-      {action === "seeFavourites" && <FavouritePlaces userId={userId} />}
+      {action === "seeFavourites" && <FavouritePlaces userId={userId} isFavourites={false} />}
       {action === "editAddedPlaces" && <AddedPlaces userId={userId} />}
       <Modal
         open={isModalOpen}

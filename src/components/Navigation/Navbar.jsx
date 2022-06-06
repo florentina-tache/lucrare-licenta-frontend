@@ -35,7 +35,7 @@ const Navbar = (props) => {
     decodedToken = jwt_decode(token);
     // email = decoded.email;
     imageUrl = server + decodedToken.image;
-    // role = decoded.role;
+    role = decodedToken.role;
   } else token = null;
 
   let buttons = [];
@@ -55,7 +55,7 @@ const Navbar = (props) => {
     ];
   }
 
-  if (token) {
+  if (token && role === "user") {
     buttons = [
       {
         label: "Find place",
@@ -83,31 +83,31 @@ const Navbar = (props) => {
   if (token && role === "admin") {
     buttons = [
       {
-        label: "Home",
+        label: "Find place",
         href: "/",
-        test: "home-link",
       },
       {
-        label: "Courses",
-        href: "/courses",
-        test: "courses-link",
+        label: "New place",
+        href: "/places/new",
+      },
+      {
+        label: "My places",
+        href: "/places/myplaces",
       },
       {
         label: "Users",
-        href: "/users",
-        test: "users-link",
+        href: "/admin/users",
       },
       {
-        label: "Create course",
-        href: "/newcourse",
-        test: "newcourse-link",
+        label: "Search",
+        href: "/search",
       },
     ];
   }
 
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 900
+      return window.innerWidth < 960
         ? setMobileView(true)
         : setMobileView(false);
     };

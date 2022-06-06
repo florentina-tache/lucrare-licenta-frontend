@@ -11,7 +11,9 @@ import {
   updatePlace,
   deletePlace,
 } from "./placesActions";
-import { fetchUsers, deleteUser, updatePlaceToNotDisplay } from "./usersActions";
+import {
+  fetchUsers, deleteUser, updatePlaceToNotDisplay, deletePlaceFromFavourites,
+} from "./usersActions";
 
 export const appProviderActions = (dispatch, token, userId) => {
   return {
@@ -19,7 +21,7 @@ export const appProviderActions = (dispatch, token, userId) => {
     login: (userLoginDetails) => login(dispatch, userLoginDetails),
     fetchPlaceById: (placeId) => fetchPlaceById(dispatch, placeId, token),
     fetchRandomPlace: (placeId) => fetchRandomPlace(placeId, userId, token),
-    fetchUserPlaces: (userId, placeType) =>
+    fetchUserPlaces: (placeType) =>
       fetchUserPlaces(dispatch, userId, token, placeType),
     fetchSearchedPlace: (tag) => fetchSearchedPlace(tag, token),
     fetchLatestPlaces: () => fetchLatestPlaces(token),
@@ -29,7 +31,8 @@ export const appProviderActions = (dispatch, token, userId) => {
     logout: () => logout(dispatch),
     updatePlace: (placeDetails, placeId) =>
       updatePlace(dispatch, placeDetails, placeId, token),
-    deletePlace: (placeId) => deletePlace(dispatch, placeId, token),
+    deletePlace: (placeId) => deletePlace(placeId, token),
+    deletePlaceFromFavourites: (placeId) => deletePlaceFromFavourites(placeId, token),
     fetchUsers: () => fetchUsers(token),
     deleteUser: (userId) => deleteUser(userId, token),
     updatePlaceToNotDisplay: (placeId) => updatePlaceToNotDisplay(userId, placeId, token)

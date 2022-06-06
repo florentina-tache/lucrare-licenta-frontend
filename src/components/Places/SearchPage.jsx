@@ -20,7 +20,10 @@ const useStyles = makeStyles((theme) => ({
 const SearchPage = () => {
   const { state, actions } = useContext(AppProviderContext);
   const [places, setPlaces] = useState(null);
+  const [searchedPlace, setSearchedPlace] = useState(false);
   const classes = useStyles();
+
+  // console.log(searchedPlace, places)
 
   let token = state.token;
   let decodedToken, userId;
@@ -39,6 +42,7 @@ const SearchPage = () => {
 
   const getQuery = (query) => {
     // console.log(query);
+    setSearchedPlace(true);
     getPlaces(query);
   };
 
@@ -54,11 +58,11 @@ const SearchPage = () => {
         <SearchBar getQuery={getQuery} />
       </div>
 
-      {places?.place ? (
+      {places?.place && (
         <UserPlaces itemData={places.place} displayButtons={false} />
-      ) : (
-        <AlertMessage text="No places found!" />
       )}
+      {!places?.place?.length && searchedPlace && <AlertMessage text="No places found!" />
+      }
     </>
   );
 };

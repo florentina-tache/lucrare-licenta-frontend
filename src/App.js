@@ -25,7 +25,7 @@ import "./App.css";
 
 const App = () => {
   const [userId, role] = useUserDetails();
-  // console.log(userId, role);
+  // console.log("userId, role", userId, role);
 
   let routes;
   if (userId) {

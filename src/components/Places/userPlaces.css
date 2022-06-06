@@ -1,0 +1,10 @@
+@media screen and (max-width: 960px) {
+  #mobile {
+    display: inline-block;
+    position: relative;
+  }
+
+  .MuiImageListItem-root {
+    width: 100% !important;
+  }
+}

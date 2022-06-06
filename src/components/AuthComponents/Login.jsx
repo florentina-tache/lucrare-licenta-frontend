@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Input from "../shared/Input";
-import { VALIDATE_REQUIRED } from "../../helpers/utils/validators";
+import { VALIDATE_REQUIRED, VALIDATE_EMAIL } from "../../helpers/utils/validators";
 import { useForm } from "../../helpers/hooks/form-hook";
 import { useToasts } from "react-toast-notifications";
 import { AppProviderContext } from "../../integration/context/appProviderContext";
@@ -58,7 +58,7 @@ const Login = (props) => {
         autoFocus: false,
         error: false,
         errorText: "Please enter your email.",
-        validators: [VALIDATE_REQUIRED()],
+        validators: [VALIDATE_REQUIRED(), VALIDATE_EMAIL()],
       },
     },
     {

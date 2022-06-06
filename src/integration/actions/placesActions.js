@@ -45,6 +45,7 @@ export const fetchUserPlaces = async (dispatch, userId, token, placeType) => {
 };
 
 export const fetchRandomPlace = async (placeId, userId, token) => {
+  console.log("!!")
   try {
     const response = await fetch(`${server}api/places/random/${userId}/${placeId}`, {
       method: "GET",
@@ -52,6 +53,8 @@ export const fetchRandomPlace = async (placeId, userId, token) => {
     });
 
     const responseData = await response.json();
+
+    console.log("responseData", responseData)
 
     if (response.status === 404) {
       return { ...responseData, success: false };
@@ -100,8 +103,6 @@ export const fetchLatestPlaces = async (token) => {
 
     const responseData = await response.json();
 
-    console.log("responseData", responseData);
-
     return { places: responseData.places };
   } catch (err) {
     console.log(err);
@@ -120,8 +121,6 @@ export const fetchLikedPlaces = async (token) => {
 
     const responseData = await response.json();
 
-    console.log("responseData", responseData);
-
     return { places: responseData.places };
   } catch (err) {
     console.log(err);
@@ -136,7 +135,6 @@ export const addNewPlace = async (
   token,
 ) => {
   const { title, description, address, image } = newPlaceDetails;
-  console.log("placeType", placeType, userId)
   try {
     let formData = new FormData();
     formData.append("title", title);
@@ -190,7 +188,7 @@ export const updatePlace = async (dispatch, placeDetails, placeId, token) => {
   } catch (err) { }
 };
 
-export const deletePlace = async (dispatch, placeId, token) => {
+export const deletePlace = async (placeId, token) => {
   try {
     const response = await fetch(`${server}api/places/${placeId}`, {
       method: "DELETE",
@@ -201,15 +199,12 @@ export const deletePlace = async (dispatch, placeId, token) => {
     });
 
     const responseData = await response.json();
-    console.log(responseData);
+    // console.log("responseData", responseData);
 
     if (response.status !== 200) {
       return { ...responseData, success: false };
     }
 
-    dispatch({
-      type: actionTypes.ADD_NEW_PLACE,
-    });
-    return { message: "Successfully updated place", success: true };
+    return { message: "Successfully deleted place", success: true };
   } catch (err) { }
 };

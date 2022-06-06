@@ -16,6 +16,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import CreateIcon from "@material-ui/icons/Create";
 import CloseIcon from "@material-ui/icons/Close";
 import Modal from "@material-ui/core/Modal";
+import MapIcon from '@material-ui/icons/Map';
+import PlaceDetails from "./helperComponents/PlaceDetails";
+
+import "./userPlaces.css"
 
 // import itemData from './itemData';
 
@@ -34,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     // height: '100%'
   },
   icon: {
-    color: "rgba(255, 255, 255, 0.54)",
+    color: "#db0a5e"
   },
   modal: {
     position: "absolute",
@@ -45,20 +49,26 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(1),
     top: "40%",
-    left: "40%",
   },
+  modalWrapper: {
+    display: "flex",
+    justifyContent: "center"
+  }
 }));
 
 const UserPlaces = ({
   itemData,
   setDeletedAPlace = () => { },
   displayButtons = true,
+  isFavourites = false,
 }) => {
   const classes = useStyles();
   let navigate = useNavigate();
   const { actions } = useContext(AppProviderContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [placeToBeDeleted, setPlaceToBeDeleted] = useState();
+  const [placeDetailsOpen, setPlaceDetailsOpen] = useState(false);
+  const [placeDetails, setPlaceDetails] = useState();
 
   const onEditHandler = (placeId) => {
     navigate(`/places/edit/${placeId}`);
@@ -69,20 +79,32 @@ const UserPlaces = ({
     setPlaceToBeDeleted(place);
   };
 
+  const onDetailsHandler = (place) => {
+    setPlaceDetailsOpen(true);
+    setPlaceDetails(place);
+  };
+
   const handleClose = () => {
     setIsModalOpen(false);
   };
 
   const onDeleteHandler = async () => {
-    await actions.deletePlace(placeToBeDeleted.id);
-    setIsModalOpen(false);
-    setDeletedAPlace(true);
-    navigate(`/places/myplaces`);
+    if (isFavourites) {
+      await actions.deletePlaceFromFavourites(placeToBeDeleted.id);
+      setIsModalOpen(false);
+      setDeletedAPlace(true);
+      // navigate(`/places/myfavourites`);
+    } else {
+      await actions.deletePlace(placeToBeDeleted.id);
+      setIsModalOpen(false);
+      setDeletedAPlace(true);
+      // navigate(`/places/myplaces`);
+    }
   };
 
   return (
     <div className={classes.root}>
-      <ImageList rowHeight={300} className={classes.imageList}>
+      <ImageList rowHeight={300} className={classes.imageList} id="mobile">
         {/* <ImageListItem key='Subheader' cols={2} style={{ height: 'auto' }}>
           <ImageUpload
             center
@@ -96,9 +118,18 @@ const UserPlaces = ({
             <img src={`${server}${item.image}`} alt={item.title} />
             <ImageListItemBar
               title={item.title}
-              subtitle={<span>by: {item.author}</span>}
+              subtitle={<span>{item.likes} likes</span>}
               actionIcon={
                 <>
+                  <IconButton
+                    color="error"
+                    aria-label="upload picture"
+                    component="span"
+                    onClick={() => onDetailsHandler(item)}
+                    className={classes.icon}
+                  >
+                    <MapIcon />
+                  </IconButton>
                   {displayButtons && (
                     <>
                       <IconButton
@@ -106,6 +137,7 @@ const UserPlaces = ({
                         aria-label="upload picture"
                         component="span"
                         onClick={() => onEditHandler(item.id)}
+                        className={classes.icon}
                       >
                         <CreateIcon />
                       </IconButton>
@@ -114,11 +146,21 @@ const UserPlaces = ({
                         aria-label="upload picture"
                         component="span"
                         onClick={() => onDeleteModalHandler(item)}
+                        className={classes.icon}
                       >
                         <DeleteIcon />
                       </IconButton>
                     </>
                   )}
+                  {isFavourites && <IconButton
+                    color="error"
+                    aria-label="upload picture"
+                    component="span"
+                    onClick={() => onDeleteModalHandler(item)}
+                    className={classes.icon}
+                  >
+                    <DeleteIcon />
+                  </IconButton>}
                 </>
               }
             />
@@ -130,6 +172,7 @@ const UserPlaces = ({
         onClose={handleClose}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
+        className={classes.modalWrapper}
       >
         <Card className={classes.modal}>
           <Grid
@@ -167,6 +210,7 @@ const UserPlaces = ({
           </Grid>
         </Card>
       </Modal>
+      <PlaceDetails isModalOpen={placeDetailsOpen} setIsModalOpen={setPlaceDetailsOpen} placeDetails={placeDetails} />
     </div>
   );
 };

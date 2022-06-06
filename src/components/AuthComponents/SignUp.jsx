@@ -151,7 +151,7 @@ const SignUp = () => {
         autoFocus: false,
         error: false,
         errorText:
-          "Your password should be at least 8 characters, contain 1 uppercase and 1 lowercase.",
+          "Your password should be at least 8 characters, contain 1 uppercase, 1 lowercase and 1 digit.",
         validators: [VALIDATE_REQUIRED(), VALIDATE_PASSWORD()],
       },
     },

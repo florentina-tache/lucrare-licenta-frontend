@@ -9,8 +9,6 @@ const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(appProviderReducer, initialState);
   const actions = appProviderActions(dispatch, state.token, state.userId);
 
-  console.log(state.userId)
-
   return (
     <AppProviderContext.Provider value={{ state, dispatch, actions }}>
       {children}
