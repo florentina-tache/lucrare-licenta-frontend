@@ -33,9 +33,6 @@ const LatestPlaces = ({ }) => {
     fetchLatestPlaces();
   }, []);
 
-  // useEffect(() => {
-  //   console.log("ceva", places?.places);
-  // }, [places]);
 
   return (
     <>

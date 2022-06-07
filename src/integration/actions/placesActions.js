@@ -1,6 +1,21 @@
 import * as actionTypes from "./types";
 import { server } from "../../helpers/utils/constants";
 
+const includeAuthorization = (token) => ({ Authorization: "Bearer " + token });
+const BASE_REQUEST_HEADERS = {
+  "Content-type": "application/json",
+};
+const HTTP_VERBS = {
+  GET: "GET",
+  POST: "POST",
+  PUT: "PUT",
+  PATCH: "PATCH",
+};
+
+const handleError = (err) => {
+  console.log(err);
+}
+
 export const fetchPlaceById = async (dispatch, placeId, token) => {
   try {
     const response = await fetch(`${server}api/places/${placeId}`, {
@@ -45,7 +60,6 @@ export const fetchUserPlaces = async (dispatch, userId, token, placeType) => {
 };
 
 export const fetchRandomPlace = async (placeId, userId, token) => {
-  console.log("!!")
   try {
     const response = await fetch(`${server}api/places/random/${userId}/${placeId}`, {
       method: "GET",
@@ -53,8 +67,6 @@ export const fetchRandomPlace = async (placeId, userId, token) => {
     });
 
     const responseData = await response.json();
-
-    console.log("responseData", responseData)
 
     if (response.status === 404) {
       return { ...responseData, success: false };
@@ -91,18 +103,45 @@ export const fetchSearchedPlace = async (tag, token) => {
   }
 };
 
+// export const fetchLatestPlaces = async (token) => {
+//   try {
+//     const response = await fetch(`${server}api/places/latest`, {
+//       method: "GET",
+//       headers: {
+//         Authorization: "Bearer " + token,
+//         "Content-type": "application/json",
+//       },
+//     });
+
+//     const responseData = await response.json();
+
+//     if (response.status !== 200) return;
+
+//     return { places: responseData.places };
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
 export const fetchLatestPlaces = async (token) => {
   try {
-    const response = await fetch(`${server}api/places/latest`, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-type": "application/json",
-      },
-    });
+    const requestHeaders = {
+      ...BASE_REQUEST_HEADERS,
+      ...includeAuthorization(token),
+    };
+    const requestConfiguration = {
+      method: HTTP_VERBS.GET,
+      headers: { ...requestHeaders },
+    };
+    const url = `${server}api/places/latest`;
 
+    const response = await fetch(url, { ...requestConfiguration });
+
+    if (response.status !== 200) {
+      const technicalError = await response.text();
+      return technicalError;
+    }
     const responseData = await response.json();
-
     return { places: responseData.places };
   } catch (err) {
     console.log(err);
@@ -111,13 +150,21 @@ export const fetchLatestPlaces = async (token) => {
 
 export const fetchLikedPlaces = async (token) => {
   try {
-    const response = await fetch(`${server}api/places/liked`, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-type": "application/json",
-      },
-    });
+    const requestHeaders = {
+      ...BASE_REQUEST_HEADERS,
+      ...includeAuthorization(token)
+    }
+    const requestConfiguration = {
+      method: HTTP_VERBS.GET,
+      headers: { ...requestHeaders },
+    }
+    const url = `${server}api/places/liked`;
+    const response = await fetch(url, { ...requestConfiguration });
+
+    if (response.status !== 200) {
+      const technicalError = await response.text();
+      return technicalError;
+    }
 
     const responseData = await response.json();
 
@@ -126,6 +173,24 @@ export const fetchLikedPlaces = async (token) => {
     console.log(err);
   }
 };
+
+// export const fetchLikedPlaces = async (token) => {
+//   try {
+//     const response = await fetch(`${server}api/places/liked`, {
+//       method: "GET",
+//       headers: {
+//         Authorization: "Bearer " + token,
+//         "Content-type": "application/json",
+//       },
+//     });
+
+//     const responseData = await response.json();
+
+//     return { places: responseData.places };
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 export const addNewPlace = async (
   newPlaceDetails,
@@ -185,7 +250,9 @@ export const updatePlace = async (dispatch, placeDetails, placeId, token) => {
       type: actionTypes.ADD_NEW_PLACE,
     });
     return { message: "Successfully updated place", success: true };
-  } catch (err) { }
+  } catch (error) {
+    handleError(error);
+  }
 };
 
 export const deletePlace = async (placeId, token) => {
