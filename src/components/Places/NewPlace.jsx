@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 const NewPlace = () => {
   const classes = useStyles();
   const { actions, state } = useContext(AppProviderContext);
-  const { addToast } = useToasts();
+  const { addToast, removeAllToasts } = useToasts();
   let navigate = useNavigate();
 
   let token = state.token;
@@ -138,6 +138,11 @@ const NewPlace = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
 
+    addToast("Processing data...", {
+      appearance: 'info',
+      autoDismiss: false,
+    });
+
     try {
       const createdPlaceStatus = await actions.addNewPlace(
         {
@@ -151,11 +156,25 @@ const NewPlace = () => {
 
       if (createdPlaceStatus) {
         const { message, success } = createdPlaceStatus;
+        if(!success){
+          setTimeout(() => {
+            removeAllToasts();
+            addToast(message, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          },1000);
+        }
 
-        addToast(message, {
-          appearance: success ? "success" : "error",
-          autoDismiss: true,
-        });
+        
+        if(success) {
+          removeAllToasts();
+          addToast(message, {
+            appearance:"success",
+            autoDismiss: true,
+          });
+          navigate("/places/myplaces");
+        }
       }
     } catch (err) {
       addToast(err, {
@@ -163,7 +182,7 @@ const NewPlace = () => {
         autoDismiss: true,
       });
     }
-    navigate("/places/myplaces");
+   
   };
   return (
     <Container component="main" maxWidth="sm" data-test="sign-up-container">
