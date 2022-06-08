@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     height: 200,
     "& .MuiImageListItem-root": {
       flexShrink: "unset !important",
+      listStyle: "none",
       top: "50%",
       width: "100%",
       position: "relative",

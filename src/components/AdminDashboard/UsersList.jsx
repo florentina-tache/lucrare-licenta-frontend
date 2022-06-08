@@ -72,7 +72,7 @@ const UsersList = ({ getUserAction, users }) => {
               <TableCell>
                 <Avatar
                   alt="Remy Sharp"
-                  src={server + "uploads/userDefault.png"}
+                  src={server + user.image}
                 />
               </TableCell>
               <TableCell>{user.email}</TableCell>

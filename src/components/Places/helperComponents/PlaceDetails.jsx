@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 5,
         boxShadow: theme.shadows[5],
         padding: theme.spacing(1),
-        top: "20%",
+        top: "10%",
     },
     title: {
         height: '50px',

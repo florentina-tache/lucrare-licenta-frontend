@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   favouriteButton: {
     width: "100px",
     height: "100px",
+    color: "#950740"
   },
   favouriteIcon: {
     width: "100px",
